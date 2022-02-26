@@ -6,7 +6,7 @@ const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 require("babel-polyfill");
 
 module.exports = (env, argv) => ({
-    entry: ["babel-polyfill", path.join(__dirname, 'src', 'react', 'index.js')],
+    entry: ["babel-polyfill", path.join(__dirname, 'src', 'react', 'index.tsx')],
     output: {
         path: path.join(__dirname, 'build'),
         filename: "index-bundle.js",
@@ -30,9 +30,9 @@ module.exports = (env, argv) => ({
     module: {
         rules: [
             {
-                test: /\.js$/,
+                test: /\.tsx?$/,
+                use: 'ts-loader',
                 exclude: /node_modules/,
-                use: ["babel-loader"]
             },
             {
                 test: /\.css$/i,
@@ -72,6 +72,7 @@ module.exports = (env, argv) => ({
         ]
     },
     resolve: {
+        extensions: ['.tsx', '.ts', '.js'],
         fallback: {
             net: false
         }

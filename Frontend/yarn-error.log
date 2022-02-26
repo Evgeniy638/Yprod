@@ -1,0 +1,82 @@
+Arguments: 
+  C:\Program Files\nodejs\node.exe C:\Program Files (x86)\Yarn\bin\yarn.js install
+
+PATH: 
+  C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Windows\System32\OpenSSH\;C:\Program Files (x86)\NVIDIA Corporation\PhysX\Common;C:\Program Files\NVIDIA Corporation\NVIDIA NvDLISR;C:\Program Files\Git\cmd;C:\Program Files\Microsoft SQL Server\130\Tools\Binn\;C:\Program Files (x86)\Yarn\bin\;C;C:\Users\user\.jdks\openjdk-16\bin;C:\Program Files (x86)\Common Files\Oracle\Java\javapath;;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;C:\Program Files (x86)\Rational\common;C:\Program Files\Common Files\Autodesk Shared\;C:\Program Files\Microsoft SQL Server\120\Tools\Binn\;C:\ProgramData\chocolatey\bin;C:\Program Files\nodejs\;C:\Program Files\Microsoft SQL Server\Client SDK\ODBC\170\Tools\Binn\;C:\Program Files\dotnet\;c:\Program Files (x86)\Microsoft SQL Server\100\Tools\Binn\;c:\Program Files\Microsoft SQL Server\100\Tools\Binn\;c:\Program Files\Microsoft SQL Server\100\DTS\Binn\;C:\Program Files\Docker\Docker\resources\bin;C:\ProgramData\DockerDesktop\version-bin;C:\Users\user\AppData\Local\Microsoft\WindowsApps;C:\Program Files\heroku\bin;C:\Program Files\JetBrains\PyCharm 2020.1.2\bin;C:\Users\user\AppData\Local\Programs\Python\Python38;C:\Users\user\.dotnet\tools;C:\Users\user\AppData\Local\Programs\Python\Python38\Scripts;C:\Program Files\mingw-w64\x86_64-8.1.0-posix-seh-rt_v6-rev0\mingw64\bin;C:\Users\user\AppData\Local\Yarn\bin;C:\texlive\2020\bin\win32;C:\Program Files\doxygen\bin;C:\Program Files\Graphviz 2.44.1\bin;C:\altera\13.1\modelsim_ase\win32aloem;C:\Users\user\AppData\Local\gitkraken\bin;C:\Program Files\JetBrains\IntelliJ IDEA 2020.2\bin;C:\Users\user\AppData\Local\Microsoft\WindowsApps;C:\Users\user\AppData\Local\Programs\Microsoft VS Code\bin;C:\Users\user\AppData\Roaming\npm;C:\Users\user\.dotnet\tools
+
+Yarn version: 
+  1.22.5
+
+Node version: 
+  17.0.1
+
+Platform: 
+  win32 x64
+
+Trace: 
+  SyntaxError: C:\Zhenya\github\Yprod\Frontend\package.json: Unexpected token } in JSON at position 1621
+      at JSON.parse (<anonymous>)
+      at C:\Program Files (x86)\Yarn\lib\cli.js:1625:59
+      at Generator.next (<anonymous>)
+      at step (C:\Program Files (x86)\Yarn\lib\cli.js:310:30)
+      at C:\Program Files (x86)\Yarn\lib\cli.js:321:13
+
+npm manifest: 
+  {
+    "name": "catlog",
+    "version": "1.0.0",
+    "main": "index.js",
+    "repository": "https://github.com/Evgeniy638/catlog.git",
+    "author": "Evgeniy <56478221+Evgeniy638@users.noreply.github.com>",
+    "license": "MIT",
+    "scripts": {
+      "devserver": "webpack-dev-server --mode development",
+      "start": "webpack --mode development --watch",
+      "build": "webpack --mode production",
+      "devbuild": "webpack --mode development"
+    },
+    "devDependencies": {
+      "@babel/core": "^7.11.4",
+      "@babel/preset-env": "^7.11.0",
+      "@babel/preset-react": "^7.10.4",
+      "babel-loader": "^8.1.0",
+      "babel-plugin-import": "^1.13.3",
+      "babel-polyfill": "^6.26.0",
+      "clean-webpack-plugin": "^4.0.0-alpha.0",
+      "compression-webpack-plugin": "^8.0.0",
+      "css-loader": "^5.2.6",
+      "file-loader": "^6.0.0",
+      "html-webpack-plugin": "^5.3.1",
+      "style-loader": "^1.2.1",
+      "uglifyjs-webpack-plugin": "^2.2.0",
+      "webpack": "^5.39.0",
+      "webpack-cli": "^3.3.12",
+      "webpack-dev-server": "^3.11.0",
+      "typescript": "^4.5.5",
+      "ts-loader": "^9.2.6"
+    },
+    "dependencies": {
+      "@types/react-dom": "^17.0.11",
+      "@types/react-router-dom": "^5.3.3",
+      "@types/webpack": "^5.28.0",
+      "axios": "^0.21.1",
+      "babel-plugin-transform-mui-imports": "^0.2.0",
+      "core-js": "^3.6.5",
+      "maxired-canvas-confetti": "^1.3.3",
+      "react": "^16.13.1",
+      "react-dom": "^16.13.1",
+      "react-helmet": "^6.1.0",
+      "react-infinite-scroll-component": "^6.1.0",
+      "react-redux": "^7.2.1",
+      "react-router-dom": "^5.2.0",
+      "redux": "^4.0.5",
+      "redux-thunk": "^2.3.0",
+      "svg-url-loader": "^6.0.0",
+    }
+  }
+
+yarn manifest: 
+  No manifest
+
+Lockfile: 
+  No lockfile
