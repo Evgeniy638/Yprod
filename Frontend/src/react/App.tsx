@@ -1,7 +1,7 @@
 import { Button } from '@mui/material';
 import React from 'react';
 
-import "./App.css";
+import './App.css';
 
 const App: React.FC = () => {
     return (
@@ -10,6 +10,6 @@ const App: React.FC = () => {
             <Button>button</Button>
         </div>
     );
-}
+};
 
 export default App;

@@ -1,15 +1,16 @@
-const path = require("path");
-const webpack = require("webpack");
-const HtmlWebpackPlugin = require("html-webpack-plugin");
-const CompressionPlugin = require("compression-webpack-plugin");
+/* eslint-disable no-undef */
+const path = require('path');
+const webpack = require('webpack');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const CompressionPlugin = require('compression-webpack-plugin');
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
-require("babel-polyfill");
+require('babel-polyfill');
 
 module.exports = (env, argv) => ({
-    entry: ["babel-polyfill", path.join(__dirname, 'src', 'react', 'index.tsx')],
+    entry: ['babel-polyfill', path.join(__dirname, 'src', 'react', 'index.tsx')],
     output: {
         path: path.join(__dirname, 'build'),
-        filename: "index-bundle.js",
+        filename: 'index-bundle.js',
         publicPath: argv.mode === 'production' ? '/' :'http://localhost:8000/',
         clean: true
     },
@@ -37,9 +38,9 @@ module.exports = (env, argv) => ({
             {
                 test: /\.css$/i,
                 use: [
-                    "style-loader",
+                    'style-loader',
                     {
-                        loader: "css-loader"
+                        loader: 'css-loader'
                     }
                 ]
             },
