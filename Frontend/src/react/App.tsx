@@ -1,10 +1,14 @@
+import { Button } from '@mui/material';
 import React from 'react';
 
 import "./App.css";
 
 const App: React.FC = () => {
     return (
-        <h1 className="App">hi</h1>
+        <div className="App">
+            <h1>hiii</h1>
+            <Button>button</Button>
+        </div>
     );
 }
 
