@@ -7,7 +7,7 @@ const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 require('babel-polyfill');
 
 module.exports = (env, argv) => ({
-    entry: ['babel-polyfill', path.join(__dirname, 'src', 'react', 'index.tsx')],
+    entry: ['babel-polyfill', path.join(__dirname, 'src', 'index.tsx')],
     output: {
         path: path.join(__dirname, 'build'),
         filename: 'index-bundle.js',
@@ -20,7 +20,7 @@ module.exports = (env, argv) => ({
             'process.env.NODE_ENV': JSON.stringify(argv.mode)
         }),
         new HtmlWebpackPlugin({
-            template: path.join(__dirname, 'src', 'index.html'),
+            template: path.join(__dirname, 'public', 'index.html'),
             filename: path.join(__dirname, 'build', 'index.html')
         }),
         new CompressionPlugin()

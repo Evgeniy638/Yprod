@@ -10,8 +10,8 @@
     "start": "webpack --mode development --watch",
     "build": "webpack --mode production",
     "devbuild": "webpack --mode development",
-    "lint": "eslint --ext .tsx --ext .ts src/react/",
-    "lint:fix": "eslint --fix --ext .tsx --ext .ts src/react/"
+    "lint": "eslint --ext .tsx --ext .ts src/",
+    "lint:fix": "eslint --fix --ext .tsx --ext .ts src/"
   },
   "devDependencies": {
     "@babel/core": "^7.11.4",
