@@ -143,7 +143,7 @@ URL: `/api/board/:id`
         {
             "id": "number",
             "name": "string",
-            "status": "string statusId",
+            "statusId": "number",
             "storyPoints": "number",
             "executor": {
                 "name": "string",
@@ -165,10 +165,12 @@ POST
 
 ### Request
 
+URL: `/api/project/access`
+
 ```json
 {
-    email: "string",
-    projectId: "number"
+    "email": "string",
+    "projectId": "number"
 }
 ```
 
@@ -187,11 +189,13 @@ POST
 
 ### Request
 
+URL: `/api/board`
+
 ```json
 {
-    projectId: "number",
-    name: "string",
-    description: "string"
+    "projectId": "number",
+    "name": "string",
+    "description": "string"
 }
 ```
 
@@ -199,9 +203,9 @@ POST
 
 ```json
 {
-    boardId: "number",
-    name: "string",
-    description: "string"
+    "boardId": "number",
+    "name": "string",
+    "description": "string"
 }
 ```
 
@@ -229,8 +233,8 @@ URL: `/api/board/:boardId/status`
 ```json
 [
     {
-        id: "number",
-        value: "string"
+        "id": "number",
+        "value": "string"
     }
 ]
 ```
@@ -254,7 +258,7 @@ URL: `/api/board/:boardId/task`
     "name": "string",
     "description": "stirng",
     "storyPoints": "number",
-    "executorEmail": "string"
+    "executorEmail": "string",
 }
 ```
 

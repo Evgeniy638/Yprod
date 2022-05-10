@@ -1,5 +1,7 @@
-import * as things from './user';
+import * as user from './user';
+import * as board from './board';
 
 export const thunkCreators = {
-    ...things,
+    ...user,
+    ...board,
 };
