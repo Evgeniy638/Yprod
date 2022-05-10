@@ -13,6 +13,7 @@ import { getProjectBoards } from './getProjectBoards';
 import { getUserAchivements } from './getUserAchivements';
 import { getUserInfo } from './getUserInfo';
 import { getTaskStatuses } from './getTaskStatuses';
+import { getProjectInfo } from './getProjectInfo';
 
 
 export const api = {
@@ -31,4 +32,5 @@ export const api = {
     createAchivement,
     assignAchivement,
     depriveAchivement,
+    getProjectInfo,
 };

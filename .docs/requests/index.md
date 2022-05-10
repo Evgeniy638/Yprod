@@ -21,6 +21,8 @@ URL: `/api/me`
     "email": "string",
     "level": "number",
     "role": "string роль в проекте PROJECT_ADMIN | PROJECT_USER",
+    "pointsToLevelUp": "number",
+    "points": "number",
     "project": {
         "id": "number",
         "name": "string"
@@ -34,7 +36,7 @@ Status:
 
 - 200 - ok
 
-## 2 Получение информации о текущем пользователе (персональная страница)
+## 2 Получение ачивок пользователя
 
 ### Method
 GET
@@ -47,10 +49,6 @@ URL: `/api/me/personal`
 
 ```json
 {
-    "id": "string",
-    "picture": "string",
-    "name": "string",
-    "email": "string",
     "achievements": [
         {
             "id": "number",
@@ -452,3 +450,34 @@ Status:
 - 400 - пользователь не имел ачивки
 
 - 404 - пользователь не найден
+
+
+## 16 Получение информации о проекте
+
+### Request
+
+Method: GET
+
+URL: `/api/project/:projectId`
+
+### Responce
+
+```json
+{
+    "id": "number",
+    "name": "string",
+    "description": "string",
+    "achievements": [
+        {
+            "id": "number",
+            "name": "string",
+            "description": "string",
+            "points": "number"
+        }
+    ]
+}
+```
+
+Status: 
+
+- 200 - ok
