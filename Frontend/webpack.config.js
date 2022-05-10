@@ -42,7 +42,8 @@ module.exports = (env, argv) => ({
                     {
                         loader: 'css-loader'
                     }
-                ]
+                ],
+                exclude: /node_modules/,
             },
             {
                 test: /\.(png|jpe?g|gif)$/i,
