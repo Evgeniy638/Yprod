@@ -4,6 +4,7 @@ import AddIcon from '@mui/icons-material/Add';
 
 import './index.css';
 import { Button, Typography } from '@mui/material';
+import { createPathToCreateTask } from '../../common/path';
 
 interface ColumnTasksProps {
     dashboardId: string;
@@ -20,7 +21,7 @@ export const ColumnTasks: FC<ColumnTasksProps> = ({dashboardId, title, children}
                 {children}
             </div>
             <Link 
-                to={`/task/create?dashboardId=${dashboardId}`}
+                to={createPathToCreateTask(dashboardId)}
                 className="ColumnTasks__link"
             >
                 <Button size="small" color="inherit" className="ColumnTasks__linkButton">

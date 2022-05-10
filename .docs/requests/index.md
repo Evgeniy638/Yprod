@@ -9,7 +9,7 @@ GET
 
 ### Request
 
-\-
+URL: `/api/me`
 
 ### Responce
 
@@ -21,6 +21,8 @@ GET
     "email": "string",
     "level": "number",
     "role": "string роль в проекте PROJECT_ADMIN | PROJECT_USER",
+    "pointsToLevelUp": "number",
+    "points": "number",
     "project": {
         "id": "number",
         "name": "string"
@@ -34,23 +36,19 @@ Status:
 
 - 200 - ok
 
-## 2 Получение информации о текущем пользователе (персональная страница)
+## 2 Получение ачивок пользователя
 
 ### Method
 GET
 
 ### Request
 
-\-
+URL: `/api/me/personal`
 
 ### Responce
 
 ```json
 {
-    "id": "string",
-    "picture": "string",
-    "name": "string",
-    "email": "string",
     "achievements": [
         {
             "id": "number",
@@ -143,7 +141,7 @@ URL: `/api/board/:id`
         {
             "id": "number",
             "name": "string",
-            "status": "string statusId",
+            "statusId": "number",
             "storyPoints": "number",
             "executor": {
                 "name": "string",
@@ -165,10 +163,12 @@ POST
 
 ### Request
 
+URL: `/api/project/access`
+
 ```json
 {
-    email: "string",
-    projectId: "number"
+    "email": "string",
+    "projectId": "number"
 }
 ```
 
@@ -187,11 +187,13 @@ POST
 
 ### Request
 
+URL: `/api/board`
+
 ```json
 {
-    projectId: "number",
-    name: "string",
-    description: "string"
+    "projectId": "number",
+    "name": "string",
+    "description": "string"
 }
 ```
 
@@ -199,9 +201,9 @@ POST
 
 ```json
 {
-    boardId: "number",
-    name: "string",
-    description: "string"
+    "boardId": "number",
+    "name": "string",
+    "description": "string"
 }
 ```
 
@@ -229,8 +231,8 @@ URL: `/api/board/:boardId/status`
 ```json
 [
     {
-        id: "number",
-        value: "string"
+        "id": "number",
+        "value": "string"
     }
 ]
 ```
@@ -254,7 +256,7 @@ URL: `/api/board/:boardId/task`
     "name": "string",
     "description": "stirng",
     "storyPoints": "number",
-    "executorEmail": "string"
+    "executorEmail": "string",
 }
 ```
 
@@ -448,3 +450,34 @@ Status:
 - 400 - пользователь не имел ачивки
 
 - 404 - пользователь не найден
+
+
+## 16 Получение информации о проекте
+
+### Request
+
+Method: GET
+
+URL: `/api/project/:projectId`
+
+### Responce
+
+```json
+{
+    "id": "number",
+    "name": "string",
+    "description": "string",
+    "achievements": [
+        {
+            "id": "number",
+            "name": "string",
+            "description": "string",
+            "points": "number"
+        }
+    ]
+}
+```
+
+Status: 
+
+- 200 - ok
