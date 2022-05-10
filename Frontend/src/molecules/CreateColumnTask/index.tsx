@@ -7,7 +7,7 @@ import './index.css';
 import { useBoolean } from '../../hooks/useBoolean';
 
 interface CreateColumnTaskProps {
-    dashboardId: string;
+    dashboardId: number;
 }
 
 export const CreateColumnTask: FC<CreateColumnTaskProps> = ({dashboardId}) => {

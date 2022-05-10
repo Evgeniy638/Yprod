@@ -6,11 +6,11 @@ import { CreateColumnTask } from '../../molecules/CreateColumnTask';
 import './index.css';
 
 interface DashboardProps {
-    dashboardId: string;
+    dashboardId: number;
 }
 
 const tasks: CardTaskProps[] = Object.keys([...new Array<unknown>(10)]).map(taskId => ({
-    taskId: `YPROD-${taskId}`,
+    taskId: Number(taskId),
     title: 'Интересный заголовок',
     tags: Number(taskId) % 2 ===0 ? ['тег', 'тег', 'длииииииииный_тег', 'тег'] : [],
 }));

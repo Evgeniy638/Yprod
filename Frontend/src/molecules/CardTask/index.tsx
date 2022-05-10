@@ -6,7 +6,7 @@ import { createPathToTask } from '../../common/path';
 import './index.css';
 
 export interface CardTaskProps {
-    taskId: string;
+    taskId: number;
     title: string;
     tags: string[];
 }

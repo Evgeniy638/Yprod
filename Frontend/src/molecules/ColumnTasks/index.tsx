@@ -7,7 +7,7 @@ import { Button, Typography } from '@mui/material';
 import { createPathToCreateTask } from '../../common/path';
 
 interface ColumnTasksProps {
-    dashboardId: string;
+    dashboardId: number;
     title: string;
 }
 
