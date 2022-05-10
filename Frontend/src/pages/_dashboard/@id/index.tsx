@@ -13,7 +13,7 @@ export const DashboardIdPage = () => {
         <Page>
             <DashboardLayout classNameMain="DashboardIdPage__main">
                 {dashboardId 
-                    ? <Dashboard dashboardId={dashboardId}/>
+                    ? <Dashboard dashboardId={Number(dashboardId)}/>
                     : 'Доска не найдена'
                 }
             </DashboardLayout>
