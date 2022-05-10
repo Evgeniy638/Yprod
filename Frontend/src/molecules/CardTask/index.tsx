@@ -1,6 +1,7 @@
 import { Chip, Typography } from '@mui/material';
 import React, { FC } from 'react';
 import { Link } from 'react-router-dom';
+import { createPathToTask } from '../../common/path';
 
 import './index.css';
 
@@ -17,7 +18,7 @@ export const CardTask: FC<CardTaskProps> = ({
 }) => {
     return (
         <div className="CardTask">
-            <Link className="ignoreLinkStyle" to={`/task/${taskId}`}>
+            <Link className="ignoreLinkStyle" to={createPathToTask(taskId)}>
                 <Typography>
                     {taskId}:{title}
                 </Typography>

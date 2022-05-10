@@ -9,7 +9,7 @@ GET
 
 ### Request
 
-\-
+URL: `/api/me`
 
 ### Responce
 
@@ -41,7 +41,7 @@ GET
 
 ### Request
 
-\-
+URL: `/api/me/personal`
 
 ### Responce
 
