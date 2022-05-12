@@ -9,15 +9,13 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import java.security.Principal;
-
 @Controller
 public class IndexController {
+
     @GetMapping(value = "/ping")
     public ResponseEntity<String> ping() {
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.setContentType(MediaType.TEXT_PLAIN);
-
         return new ResponseEntity<>("pong", httpHeaders, HttpStatus.OK);
     }
 

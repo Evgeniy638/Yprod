@@ -1,9 +1,17 @@
 package com.example.backend.service;
 
+import com.example.backend.dto.response.GetUserAchievementsResponse;
+import com.example.backend.dto.response.GetUserResponse;
+import com.example.backend.dto.response.UserShortResponse;
 import com.example.backend.entities.GoogleUserInfo;
+import com.example.backend.entities.Project;
 import com.example.backend.entities.User;
+import com.example.backend.entities.UserProgress;
+import com.example.backend.exceptions.ForbiddenException;
+import com.example.backend.exceptions.NotFoundException;
 import com.example.backend.repo.UserRepo;
 import lombok.RequiredArgsConstructor;
+import lombok.SneakyThrows;
 import org.springframework.security.authentication.InternalAuthenticationServiceException;
 import org.springframework.security.oauth2.client.oidc.userinfo.OidcUserRequest;
 import org.springframework.security.oauth2.client.oidc.userinfo.OidcUserService;
@@ -11,9 +19,8 @@ import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
 import org.springframework.security.oauth2.core.oidc.user.OidcUser;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 /**
  * Сервис, выполняющий логику, связанную с пользователями
@@ -26,14 +33,75 @@ public class UserService extends OidcUserService {
 
     private final UserRepo userRepo;
 
+    private final ProjectService projectService;
+
+    private final UserProgressService userProgressService;
+
+    private final AchievementService achievementService;
+
+    @SneakyThrows
+    public void validateAccessToProject(OidcUser oidcUser, Project project) {
+        if (project.getUsers().stream().anyMatch(user -> user.getEmail().equals(oidcUser.getEmail()))) {
+            return;
+        }
+        throw new ForbiddenException();
+    }
+
+    @SneakyThrows
+    public void validateAdminOfProject(OidcUser oidcUser, Project project) {
+        if (project.getAdmins().stream().anyMatch(admin -> admin.getEmail().equals(oidcUser.getEmail()))) {
+            return;
+        }
+        throw new ForbiddenException();
+    }
+
     /**
-     * Возвращает список пользователей по части или польному адресу электронной почты
+     * Возвращает пользователя по адресу электронной почты
      *
-     * @param email - полный или частичный email пользователя
-     * @return Список пользователей
+     * @param email - email пользователя
+     * @return Пользователь
      */
-    public List<User> findUserByEmail(String email) {
-        return new ArrayList<>();
+    public Optional<User> findUserByEmail(String email) {
+        return userRepo.findByEmail(email);
+    }
+
+    @SneakyThrows
+    public GetUserResponse buildGetUserResponse(OidcUser oidcUser) {
+        Optional<User> userOptional = findUserByOidcUser(oidcUser);
+        User user = userOptional.orElseThrow(NotFoundException::new);
+        UserProgress userProgress = user.getUserProgressSet().stream().findFirst().orElseThrow(NotFoundException::new);
+        return new GetUserResponse()
+                .setId(user.getId())
+                .setName(user.getName())
+                .setPicture(user.getPicture())
+                .setEmail(user.getEmail())
+                .setLevel(userProgress.getLevel())
+                .setPoints(userProgress.getPoints())
+                .setPointsToLevelUp(userProgressService.getPointsToLevelUp(userProgress))
+                .setProject(projectService.buildProjectResponse(userProgress.getProject()))
+                .setRole(projectService.getUserProjectRole(user, userProgress.getProject()));
+    }
+
+    @SneakyThrows
+    public GetUserAchievementsResponse buildGetUserAchievementsResponse(OidcUser oidcUser) {
+        Optional<User> userOptional = findUserByOidcUser(oidcUser);
+        User user = userOptional.orElseThrow(NotFoundException::new);
+        UserProgress userProgress = user.getUserProgressSet().stream().findFirst().orElseThrow(NotFoundException::new);
+        return new GetUserAchievementsResponse()
+                .setAchievements(userProgress.getAchievements()
+                        .stream()
+                        .map(achievementService::buildAchievementResponse)
+                        .collect(Collectors.toList()));
+    }
+
+    public UserShortResponse buildUserShortResponse(User user){
+        return new UserShortResponse()
+                .setName(user.getName())
+                .setPicture(user.getPicture());
+    }
+
+    public Optional<User> findUserByOidcUser(OidcUser oidcUser){
+        return findUserByEmail(oidcUser.getEmail());
     }
 
     @Override
@@ -48,7 +116,6 @@ public class UserService extends OidcUserService {
 
     private OidcUser processOidcUser(OidcUser oidcUser) {
         GoogleUserInfo googleUserInfo = new GoogleUserInfo(oidcUser.getAttributes());
-
         Optional<User> userOptional = userRepo.findById(googleUserInfo.getId());
         if (userOptional.isEmpty()) {
             User user = new User();
@@ -60,4 +127,5 @@ public class UserService extends OidcUserService {
         }
         return oidcUser;
     }
+
 }

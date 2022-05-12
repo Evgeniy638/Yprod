@@ -24,10 +24,13 @@ public class Board {
     @Enumerated(EnumType.STRING)
     private BoardStatus status;
 
-    @OneToMany
+    @OneToMany(fetch = FetchType.EAGER)
     private Set<Task> tasks;
 
-    @ManyToMany
-    private Set<TaskStatus> taskStatuses;
+    @ManyToOne
+    private Project project;
+
+    @OneToMany(mappedBy = "board", fetch = FetchType.EAGER)
+    private Set<BoardTaskStatus> boardTaskStatuses;
 
 }

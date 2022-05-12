@@ -1,9 +1,12 @@
 package com.example.backend.service;
 
+import com.example.backend.dto.response.TaskShortResponse;
 import com.example.backend.entities.Board;
 import com.example.backend.entities.Task;
 import com.example.backend.entities.TaskStatus;
 import com.example.backend.entities.User;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,7 +16,20 @@ import java.util.List;
  *
  * @author Danil Kuzin
  */
+@Service
+@RequiredArgsConstructor
 public class TaskService {
+
+    private final UserService userService;
+
+    public TaskShortResponse buildTaskShortResponse(Task task){
+        return new TaskShortResponse()
+                .setId(task.getId())
+                .setName(task.getName())
+                .setStatusId(task.getStatus().getId())
+                .setStoryPoints(task.getStoryPoints())
+                .setExecutor(userService.buildUserShortResponse(task.getExecutor()));
+    }
 
     /**
      * Создает задачу на доске
