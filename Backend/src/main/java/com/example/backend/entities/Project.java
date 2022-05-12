@@ -20,9 +20,9 @@ public class Project {
 
     private String description;
 
-    private Integer pointsToLevelUp = 100;
+    private Long pointsToLevelUp;
 
-    @ManyToMany(cascade = {CascadeType.ALL})
+    @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.ALL})
     @JoinTable(
             name = "project_admin",
             joinColumns = {@JoinColumn(name = "project_id")},
@@ -30,7 +30,7 @@ public class Project {
     )
     private Set<User> admins;
 
-    @ManyToMany(cascade = {CascadeType.ALL})
+    @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.ALL})
     @JoinTable(
             name = "project_user",
             joinColumns = {@JoinColumn(name = "project_id")},
@@ -38,7 +38,7 @@ public class Project {
     )
     private Set<User> users;
 
-    @ManyToMany(cascade = {CascadeType.ALL})
+    @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.ALL})
     @JoinTable(
             name = "project_achievement",
             joinColumns = {@JoinColumn(name = "project_id")},
@@ -46,6 +46,10 @@ public class Project {
     )
     private Set<Achievement> achievements;
 
-    @OneToMany
+    @OneToMany(mappedBy = "project", fetch = FetchType.EAGER)
     private Set<Board> boards;
+
+    @OneToMany(mappedBy = "project", fetch = FetchType.EAGER)
+    private Set<UserProgress> userProgressSet;
+
 }

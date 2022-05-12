@@ -26,7 +26,7 @@ public class UserProgress {
     @ManyToOne
     private Project project;
 
-    @ManyToMany(cascade = {CascadeType.ALL})
+    @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.ALL})
     @JoinTable(
             name = "user_progress_achievement",
             joinColumns = {@JoinColumn(name = "user_progress_id")},

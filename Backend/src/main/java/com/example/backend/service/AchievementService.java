@@ -1,16 +1,55 @@
 package com.example.backend.service;
 
+import com.example.backend.dto.response.AchievementResponse;
+import com.example.backend.dto.response.GetAchievementPictureResponse;
 import com.example.backend.entities.Achievement;
+import com.example.backend.entities.Project;
+import com.example.backend.exceptions.NotFoundException;
+import com.example.backend.repo.AchievementRepo;
+import lombok.RequiredArgsConstructor;
+import lombok.SneakyThrows;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Сервис, выполняющий логику, связанную с достижениями
  *
  * @author Danil Kuzin
  */
+@Service
+@RequiredArgsConstructor
 public class AchievementService {
+
+    private final AchievementRepo achievementRepo;
+
+    @SneakyThrows
+    public Project getProjectByAchievementId(Long id){
+        Achievement achievement = findAchievementById(id).orElseThrow(NotFoundException::new);
+        return achievement.getProjects().stream().findFirst().orElseThrow(NotFoundException::new);
+    }
+
+    @SneakyThrows
+    public AchievementResponse buildAchievementResponse(Achievement achievement) {
+        if (achievement == null) {
+            throw new NotFoundException();
+        }
+        return new AchievementResponse()
+                .setId(achievement.getId())
+                .setName(achievement.getName())
+                .setDescription(achievement.getDescription())
+                .setPoints(achievement.getPoints());
+    }
+
+    @SneakyThrows
+    public GetAchievementPictureResponse buildGetAchievementPictureResponse(Long id) {
+        Achievement achievement = findAchievementById(id).orElseThrow(NotFoundException::new);
+        return new GetAchievementPictureResponse()
+                .setPicture(achievement.getPicture());
+    }
+
 
     /**
      * Добавляет новое достижение в базу
@@ -33,6 +72,10 @@ public class AchievementService {
      */
     public List<Achievement> findAchievementsByName(String name) {
         return new ArrayList<>();
+    }
+
+    private Optional<Achievement> findAchievementById(Long id) {
+        return achievementRepo.findById(id);
     }
 
 }

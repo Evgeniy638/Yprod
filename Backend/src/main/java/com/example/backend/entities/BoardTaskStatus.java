@@ -4,19 +4,23 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.util.Set;
 
 @Entity
-@Table(name = "task_status")
+@Table(name = "board_task_status")
 @Getter
 @Setter
-public class TaskStatus {
+public class BoardTaskStatus {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String value;
+    @Column(name = "order_on_board")
+    private Integer order;
 
-    @OneToMany(mappedBy = "taskStatus", fetch = FetchType.EAGER)
-    private Set<BoardTaskStatus> boardTaskStatuses;
+    @ManyToOne
+    private Board board;
+
+    @ManyToOne
+    private TaskStatus taskStatus;
+
 }

@@ -1,6 +1,9 @@
 package com.example.backend.service;
 
+import com.example.backend.dto.response.StatusResponse;
+import com.example.backend.entities.BoardTaskStatus;
 import com.example.backend.entities.TaskStatus;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,7 +13,15 @@ import java.util.List;
  *
  * @author Danil Kuzin
  */
+@Service
 public class TaskStatusService {
+
+    public StatusResponse buildStatusResponse(BoardTaskStatus boardStatus){
+        return new StatusResponse()
+                .setId(boardStatus.getTaskStatus().getId())
+                .setName(boardStatus.getTaskStatus().getValue())
+                .setOrder(boardStatus.getOrder());
+    }
 
     /**
      * Создает новый статус задач

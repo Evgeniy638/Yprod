@@ -1,15 +1,70 @@
 package com.example.backend.service;
 
+import com.example.backend.dto.enums.UserProjectRole;
+import com.example.backend.dto.request.GrantAccessRequest;
+import com.example.backend.dto.response.ProjectResponse;
 import com.example.backend.entities.Achievement;
 import com.example.backend.entities.Project;
 import com.example.backend.entities.User;
+import com.example.backend.exceptions.NotFoundException;
+import com.example.backend.repo.ProjectRepo;
+import lombok.SneakyThrows;
+import org.springframework.context.annotation.Lazy;
+import org.springframework.stereotype.Service;
+
+import java.util.Optional;
+import java.util.Set;
 
 /**
  * Сервис, выполняющий логику, связанную с проектами
  *
  * @author Danil Kuzin
  */
+@Service
 public class ProjectService {
+
+    private final ProjectRepo projectRepo;
+
+    private final UserService userService;
+
+    public ProjectService(ProjectRepo projectRepo, @Lazy UserService userService) {
+        this.projectRepo = projectRepo;
+        this.userService = userService;
+    }
+
+    @SneakyThrows
+    public void grandAccess(GrantAccessRequest request) {
+        User user = userService.findUserByEmail(request.getEmail()).orElseThrow(NotFoundException::new);
+        Project project = getProject(request.getProjectId()).orElseThrow(NotFoundException::new);
+        Set<User> projectUsers = project.getUsers();
+        projectUsers.add(user);
+        project.setUsers(projectUsers);
+        if (projectUsers.containsAll(project.getUsers())) {
+            return;
+        }
+        projectRepo.save(project);
+    }
+
+    @SneakyThrows
+    public ProjectResponse buildProjectResponse(Project project) {
+        if (project == null) {
+            throw new NotFoundException();
+        }
+        return new ProjectResponse()
+                .setId(project.getId())
+                .setName(project.getName());
+    }
+
+    @SneakyThrows
+    public UserProjectRole getUserProjectRole(User user, Project project) {
+        if (user == null || project == null) {
+            throw new NotFoundException();
+        }
+        if (project.getAdmins().contains(user)) {
+            return UserProjectRole.PROJECT_ADMIN;
+        }
+        return UserProjectRole.PROJECT_USER;
+    }
 
     /**
      * Создает проект
@@ -28,8 +83,8 @@ public class ProjectService {
      * @param id - id проекта
      * @return Проект
      */
-    public Project getProject(Long id) {
-        return new Project();
+    public Optional<Project> getProject(Long id) {
+        return projectRepo.findById(id);
     }
 
     /**

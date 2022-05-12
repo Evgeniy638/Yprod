@@ -3,13 +3,27 @@ package com.example.backend.service;
 import com.example.backend.entities.Project;
 import com.example.backend.entities.User;
 import com.example.backend.entities.UserProgress;
+import com.example.backend.exceptions.NotFoundException;
+import lombok.RequiredArgsConstructor;
+import lombok.SneakyThrows;
+import org.springframework.stereotype.Service;
 
 /**
  * Сервис, выполняющий логику, связанную с выдачей пользователю достижений, повышением уровня
  *
  * @author Danil Kuzin
  */
+@Service
+@RequiredArgsConstructor
 public class UserProgressService {
+
+    @SneakyThrows
+    public Long getPointsToLevelUp(UserProgress userProgress) {
+        if (userProgress == null || userProgress.getProject() == null) {
+            throw new NotFoundException();
+        }
+        return userProgress.getProject().getPointsToLevelUp() * Math.round(Math.pow(2, (userProgress.getLevel() - 1)));
+    }
 
     /**
      * Добавляет сущность для учета прогресса пользователя на проекте
