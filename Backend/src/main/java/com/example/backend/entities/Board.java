@@ -24,7 +24,7 @@ public class Board {
     @Enumerated(EnumType.STRING)
     private BoardStatus status;
 
-    @OneToMany(fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "board", fetch = FetchType.EAGER)
     private Set<Task> tasks;
 
     @ManyToOne

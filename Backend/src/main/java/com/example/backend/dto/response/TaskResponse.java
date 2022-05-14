@@ -4,12 +4,10 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 
-import java.util.List;
-
 @Setter
 @Getter
 @Accessors(chain = true)
-public class ProjectResponse {
+public class TaskResponse {
 
     private Long id;
 
@@ -17,6 +15,12 @@ public class ProjectResponse {
 
     private String description;
 
-    private List<AchievementResponse> achievements;
+    private Integer storyPoints;
+
+    private String status;
+
+    private Long boardId;
+
+    private UserShortResponse executor;
 
 }

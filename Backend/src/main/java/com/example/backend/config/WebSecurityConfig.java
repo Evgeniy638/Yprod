@@ -22,12 +22,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .anyRequest().authenticated()
                 .and()
                 .logout()
-                    .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-                    .logoutSuccessUrl("/login")
+                .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+                .logoutSuccessUrl("/login")
                 .and()
-                    .oauth2Login()
-                        .userInfoEndpoint()
-                        .oidcUserService(userService);
+                .oauth2Login()
+                .userInfoEndpoint()
+                .oidcUserService(userService);
     }
 
 }

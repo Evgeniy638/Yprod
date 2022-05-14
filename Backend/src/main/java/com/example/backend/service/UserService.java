@@ -78,7 +78,7 @@ public class UserService extends OidcUserService {
                 .setLevel(userProgress.getLevel())
                 .setPoints(userProgress.getPoints())
                 .setPointsToLevelUp(userProgressService.getPointsToLevelUp(userProgress))
-                .setProject(projectService.buildProjectResponse(userProgress.getProject()))
+                .setProject(projectService.buildProjectShortResponse(userProgress.getProject()))
                 .setRole(projectService.getUserProjectRole(user, userProgress.getProject()));
     }
 
@@ -94,13 +94,13 @@ public class UserService extends OidcUserService {
                         .collect(Collectors.toList()));
     }
 
-    public UserShortResponse buildUserShortResponse(User user){
+    public UserShortResponse buildUserShortResponse(User user) {
         return new UserShortResponse()
                 .setName(user.getName())
                 .setPicture(user.getPicture());
     }
 
-    public Optional<User> findUserByOidcUser(OidcUser oidcUser){
+    public Optional<User> findUserByOidcUser(OidcUser oidcUser) {
         return findUserByEmail(oidcUser.getEmail());
     }
 

@@ -37,4 +37,7 @@ public class Task {
     @ManyToOne
     private TaskStatus status;
 
+    @ManyToOne
+    private Board board;
+
 }

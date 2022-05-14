@@ -25,6 +25,11 @@ public class Achievement {
     private Integer points;
 
     @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "project_achievement",
+            joinColumns = {@JoinColumn(name = "achievement_id")},
+            inverseJoinColumns = {@JoinColumn(name = "project_id")}
+    )
     private Set<Project> projects;
 
 }

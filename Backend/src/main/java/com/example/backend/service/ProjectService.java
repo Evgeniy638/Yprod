@@ -3,6 +3,7 @@ package com.example.backend.service;
 import com.example.backend.dto.enums.UserProjectRole;
 import com.example.backend.dto.request.GrantAccessRequest;
 import com.example.backend.dto.response.ProjectResponse;
+import com.example.backend.dto.response.ProjectShortResponse;
 import com.example.backend.entities.Achievement;
 import com.example.backend.entities.Project;
 import com.example.backend.entities.User;
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * Сервис, выполняющий логику, связанную с проектами
@@ -27,9 +29,12 @@ public class ProjectService {
 
     private final UserService userService;
 
-    public ProjectService(ProjectRepo projectRepo, @Lazy UserService userService) {
+    private final AchievementService achievementService;
+
+    public ProjectService(ProjectRepo projectRepo, @Lazy UserService userService, AchievementService achievementService) {
         this.projectRepo = projectRepo;
         this.userService = userService;
+        this.achievementService = achievementService;
     }
 
     @SneakyThrows
@@ -46,13 +51,26 @@ public class ProjectService {
     }
 
     @SneakyThrows
-    public ProjectResponse buildProjectResponse(Project project) {
+    public ProjectShortResponse buildProjectShortResponse(Project project) {
         if (project == null) {
             throw new NotFoundException();
         }
-        return new ProjectResponse()
+        return new ProjectShortResponse()
                 .setId(project.getId())
                 .setName(project.getName());
+    }
+
+    @SneakyThrows
+    public ProjectResponse buildProjectResponse(Long id) {
+        Project project = getProject(id).orElseThrow(NotFoundException::new);
+        return new ProjectResponse()
+                .setId(project.getId())
+                .setName(project.getName())
+                .setDescription(project.getDescription())
+                .setAchievements(project.getAchievements().stream()
+                        .map(achievementService::buildAchievementResponse)
+                        .collect(Collectors.toList())
+                );
     }
 
     @SneakyThrows
@@ -64,6 +82,10 @@ public class ProjectService {
             return UserProjectRole.PROJECT_ADMIN;
         }
         return UserProjectRole.PROJECT_USER;
+    }
+
+    public Optional<Project> getProjectByAdmin(User user) {
+        return projectRepo.findFirstByAdminsContains(user);
     }
 
     /**
