@@ -26,6 +26,6 @@ public class GetUserResponse {
 
     private Long points;
 
-    private ProjectResponse project;
+    private ProjectShortResponse project;
 
 }

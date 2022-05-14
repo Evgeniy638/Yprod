@@ -4,19 +4,13 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 
-import java.util.List;
-
 @Setter
 @Getter
 @Accessors(chain = true)
-public class ProjectResponse {
+public class ProjectShortResponse {
 
     private Long id;
 
     private String name;
-
-    private String description;
-
-    private List<AchievementResponse> achievements;
 
 }

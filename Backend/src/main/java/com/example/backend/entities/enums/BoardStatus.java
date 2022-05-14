@@ -6,7 +6,7 @@ import lombok.RequiredArgsConstructor;
 public enum BoardStatus {
     OPEN("Открыта"),
     CLOSED("Закрыта"),
-    DELETED( "Удалена");
+    DELETED("Удалена");
 
     private final String value;
 }

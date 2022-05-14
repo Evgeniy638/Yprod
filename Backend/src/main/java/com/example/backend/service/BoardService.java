@@ -37,7 +37,7 @@ public class BoardService {
     private final ProjectService projectService;
 
     @SneakyThrows
-    public CreateBoardResponse create(CreateBoardRequest request){
+    public CreateBoardResponse create(CreateBoardRequest request) {
         Board board = new Board();
         Project project = projectService.getProject(request.getProjectId()).orElseThrow(NotFoundException::new);
         board.setName(request.getName());
@@ -51,7 +51,7 @@ public class BoardService {
     }
 
     @SneakyThrows
-    public Project getProjectByBoardId(Long id){
+    public Project getProjectByBoardId(Long id) {
         Board board = getBoard(id).orElseThrow(NotFoundException::new);
         return board.getProject();
     }
@@ -72,7 +72,7 @@ public class BoardService {
     }
 
     @SneakyThrows
-    public GetBoardInfoResponse buildGetBoardInfoResponse(Long boardId){
+    public GetBoardInfoResponse buildGetBoardInfoResponse(Long boardId) {
         Board board = getBoard(boardId).orElseThrow(NotFoundException::new);
         return new GetBoardInfoResponse()
                 .setId(board.getId())

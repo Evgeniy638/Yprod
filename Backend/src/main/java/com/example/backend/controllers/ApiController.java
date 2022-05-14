@@ -1,14 +1,10 @@
 package com.example.backend.controllers;
 
-import com.example.backend.dto.request.CreateBoardRequest;
-import com.example.backend.dto.request.GrantAccessRequest;
+import com.example.backend.dto.request.*;
 import com.example.backend.dto.response.*;
 import com.example.backend.exceptions.NotFoundException;
 import com.example.backend.exceptions.ServerException;
-import com.example.backend.service.AchievementService;
-import com.example.backend.service.BoardService;
-import com.example.backend.service.ProjectService;
-import com.example.backend.service.UserService;
+import com.example.backend.service.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -16,6 +12,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.core.oidc.user.OidcUser;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api")
@@ -30,6 +28,12 @@ public class ApiController {
     private final BoardService boardService;
 
     private final ProjectService projectService;
+
+    private final TaskStatusService taskStatusService;
+
+    private final TaskService taskService;
+
+    private final UserProgressService userProgressService;
 
     @GetMapping("/me")
     public ResponseEntity<GetUserResponse> getUser(@AuthenticationPrincipal OidcUser user) {
@@ -80,7 +84,7 @@ public class ApiController {
     }
 
     @PostMapping("/project/access")
-    public ResponseEntity<Void> grantAccess(@AuthenticationPrincipal OidcUser user, GrantAccessRequest request){
+    public ResponseEntity<Void> grantAccess(@AuthenticationPrincipal OidcUser user, GrantAccessRequest request) {
         try {
             userService.validateAdminOfProject(user, projectService.getProject(request.getProjectId()).orElseThrow(NotFoundException::new));
             projectService.grandAccess(request);
@@ -91,7 +95,7 @@ public class ApiController {
     }
 
     @PostMapping("/board")
-    public ResponseEntity<CreateBoardResponse> createBoard(@AuthenticationPrincipal OidcUser user, CreateBoardRequest request){
+    public ResponseEntity<CreateBoardResponse> createBoard(@AuthenticationPrincipal OidcUser user, CreateBoardRequest request) {
         try {
             userService.validateAdminOfProject(user, projectService.getProject(request.getProjectId()).orElseThrow(NotFoundException::new));
             return new ResponseEntity<>(boardService.create(request), HttpStatus.OK);
@@ -99,6 +103,96 @@ public class ApiController {
             return getResponseEntityByException(e);
         }
     }
+
+    @PostMapping("/board/{id}/status")
+    public ResponseEntity<CreateStatusResponse> createStatus(@AuthenticationPrincipal OidcUser user, @PathVariable("id") long id, CreateStatusRequest request) {
+        try {
+            userService.validateAdminOfProject(user, boardService.getProjectByBoardId(id));
+            return new ResponseEntity<>(taskStatusService.create(id, request), HttpStatus.OK);
+        } catch (Exception e) {
+            return getResponseEntityByException(e);
+        }
+    }
+
+    @PostMapping("/board/{id}/task")
+    public ResponseEntity<TaskResponse> createTask(@AuthenticationPrincipal OidcUser user, @PathVariable("id") long id, CreateTaskRequest request) {
+        try {
+            userService.validateAccessToProject(user, boardService.getProjectByBoardId(id));
+            return new ResponseEntity<>(taskService.create(user, id, request), HttpStatus.OK);
+        } catch (Exception e) {
+            return getResponseEntityByException(e);
+        }
+    }
+
+    @GetMapping("/task/{id}")
+    public ResponseEntity<TaskResponse> getTask(@AuthenticationPrincipal OidcUser user, @PathVariable("id") long id) {
+        try {
+            userService.validateAccessToProject(user, taskService.getProjectByTaskId(id));
+            return new ResponseEntity<>(taskService.getTaskResponse(id), HttpStatus.OK);
+        } catch (Exception e) {
+            return getResponseEntityByException(e);
+        }
+    }
+
+    @PutMapping("/task/{id}")
+    public ResponseEntity<TaskResponse> editTask(@AuthenticationPrincipal OidcUser user, @PathVariable("id") long id, EditTaskRequest request) {
+        try {
+            userService.validateAccessToProject(user, taskService.getProjectByTaskId(id));
+            return new ResponseEntity<>(taskService.edit(id, request), HttpStatus.OK);
+        } catch (Exception e) {
+            return getResponseEntityByException(e);
+        }
+    }
+
+    @GetMapping("/board/{id}/taskstatuses")
+    public ResponseEntity<List<StatusResponse>> getTaskStatuses(@AuthenticationPrincipal OidcUser user, @PathVariable("id") long id) {
+        try {
+            userService.validateAccessToProject(user, boardService.getProjectByBoardId(id));
+            return new ResponseEntity<>(taskStatusService.buildGetStatusesResponse(id), HttpStatus.OK);
+        } catch (Exception e) {
+            return getResponseEntityByException(e);
+        }
+    }
+
+    @PostMapping("/achievement")
+    public ResponseEntity<AchievementResponse> createAchievement(@AuthenticationPrincipal OidcUser user, CreateAchievementRequest request) {
+        try {
+            return new ResponseEntity<>(achievementService.createAchievement(user, request), HttpStatus.OK);
+        } catch (Exception e) {
+            return getResponseEntityByException(e);
+        }
+    }
+
+    @PostMapping("/achievement/{id}/assign")
+    public ResponseEntity<Void> assignAchievement(@AuthenticationPrincipal OidcUser user, @PathVariable("id") long id, AssignAndDepriveAchievementRequest request) {
+        try {
+            userProgressService.assignAchievement(user, id, request);
+            return new ResponseEntity<>(HttpStatus.OK);
+        } catch (Exception e) {
+            return getResponseEntityByException(e);
+        }
+    }
+
+    @PostMapping("/achievement/{id}/deprive")
+    public ResponseEntity<Void> depriveAchievement(@AuthenticationPrincipal OidcUser user, @PathVariable("id") long id, AssignAndDepriveAchievementRequest request) {
+        try {
+            userProgressService.depriveAchievement(user, id, request);
+            return new ResponseEntity<>(HttpStatus.OK);
+        } catch (Exception e) {
+            return getResponseEntityByException(e);
+        }
+    }
+
+    @GetMapping("/project/{id}")
+    public ResponseEntity<ProjectResponse> getProject(@AuthenticationPrincipal OidcUser user, @PathVariable("id") long id) {
+        try {
+            userService.validateAccessToProject(user, boardService.getProjectByBoardId(id));
+            return new ResponseEntity<>(projectService.buildProjectResponse(id), HttpStatus.OK);
+        } catch (Exception e) {
+            return getResponseEntityByException(e);
+        }
+    }
+
 
     private <T> ResponseEntity<T> getResponseEntityByException(Exception e) {
         log.error("Server Exception " + e.getMessage());

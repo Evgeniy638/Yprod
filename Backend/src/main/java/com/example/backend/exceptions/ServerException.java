@@ -8,7 +8,7 @@ public class ServerException extends Exception {
         super("Server Error (500)");
     }
 
-    public ServerException(String message){
+    public ServerException(String message) {
         super(message);
     }
 
