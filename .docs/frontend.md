@@ -8,7 +8,7 @@
 
 В корне:
 
-`.\mvnw clean -DnpmCommand=devbuild install`
+`.\mvnw clean -Dnpmommand=devbuild -D"maven.test.skip=true" package`
 
 Перейти в папку Frontend 
 

@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React, { FC, ReactNode } from 'react';
 import { List, ListItem, ListItemButton, ListItemText, Typography } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 
@@ -18,6 +18,7 @@ const listBoard: ItemListBoard[] = [...(new Array<undefined>(30))].map((_val, in
 
 interface DashboardLayoutProps {
     classNameMain?: string;
+    children?: ReactNode;
 }
 
 export const DashboardLayout: FC<DashboardLayoutProps> = ({children, classNameMain}) => {

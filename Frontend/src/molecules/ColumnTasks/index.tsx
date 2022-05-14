@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React, { FC, ReactNode } from 'react';
 import { Link } from 'react-router-dom';
 import AddIcon from '@mui/icons-material/Add';
 
@@ -9,6 +9,7 @@ import { createPathToCreateTask } from '../../common/path';
 interface ColumnTasksProps {
     dashboardId: number;
     title: string;
+    children?: ReactNode;
 }
 
 export const ColumnTasks: FC<ColumnTasksProps> = ({dashboardId, title, children}) => {

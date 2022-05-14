@@ -1,9 +1,13 @@
-import React, { FC } from 'react';
+import React, { FC, ReactNode } from 'react';
 import { Header } from '../Header';
 
 import './index.css';
 
-export const Page: FC = ({children}) => {
+interface PageProps {
+    children?: ReactNode;
+}
+
+export const Page: FC<PageProps> = ({children}) => {
     return (
         <div className="Page">
             <Header />
