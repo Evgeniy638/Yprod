@@ -9,7 +9,7 @@ export interface CurrentTask {
     boardId: number;
     executor: {
         name: string;
-        picture: string;
+        picture?: string;
     }
 }
 

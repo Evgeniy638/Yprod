@@ -15,7 +15,7 @@ export interface User {
     role: UserRole;
     project: {
         id: number;
-        name: string;
+        name?: string;
     }
     achievements?: Achievement[];
 }

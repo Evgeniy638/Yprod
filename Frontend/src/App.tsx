@@ -1,5 +1,6 @@
 import { SnackbarProvider } from 'notistack';
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 import { Redirect, Route, Switch } from 'react-router-dom';
 
 import './App.css';
@@ -8,8 +9,15 @@ import { DashboardPage } from './pages/_dashboard';
 import { DashboardIdPage } from './pages/_dashboard/@id';
 import TaskIdPage from './pages/_task/@id';
 import TaskCreatePage from './pages/_task/_create';
+import { thunkCreators } from './store';
 
 const App: React.FC = () => {
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        dispatch(thunkCreators.setMainUserInfo());
+    }, []);
+
     return (
         <SnackbarProvider maxSnack={3}>
             <div className="App">

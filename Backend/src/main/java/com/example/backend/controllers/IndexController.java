@@ -22,7 +22,11 @@ public class IndexController {
     // тут в дальнейшем можно прописывать пути к страницам
     @RequestMapping(
             method = RequestMethod.GET,
-            value = {"/", "/dashboard", "/dashboard/*"},
+            value = {
+                    "/",
+                    "/dashboard", "/dashboard/*",
+                    "/task", "/task/*"
+            },
             produces = MediaType.TEXT_HTML_VALUE
     )
     public String index() {
