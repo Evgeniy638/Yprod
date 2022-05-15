@@ -8,13 +8,13 @@ import './index.css';
 export interface CardTaskProps {
     taskId: number;
     title: string;
-    tags: string[];
+    tags?: string[];
 }
 
 export const CardTask: FC<CardTaskProps> = ({
     taskId,
     title,
-    tags,
+    tags=[],
 }) => {
     return (
         <div className="CardTask">

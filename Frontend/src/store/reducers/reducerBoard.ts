@@ -13,6 +13,19 @@ export const reducerBoard = (
                 ...state,
                 board: action.board,
             };
+        
+            
+        case ListTypeBoardActions.ADD_STATUS:
+            return {
+                ...state,
+                board: {
+                    ...state?.board,
+                    statuses: [
+                        ...(state?.board?.statuses || []),
+                        action.status
+                    ],
+                },
+            };
 
         default:
             return state;

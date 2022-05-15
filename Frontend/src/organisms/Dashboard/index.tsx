@@ -1,7 +1,9 @@
 import React, { FC } from 'react';
-import { CardTask, CardTaskProps } from '../../molecules/CardTask';
+import { useSelector } from 'react-redux';
+import { CardTask } from '../../molecules/CardTask';
 import { ColumnTasks } from '../../molecules/ColumnTasks';
 import { CreateColumnTask } from '../../molecules/CreateColumnTask';
+import { selectors } from '../../store';
 
 import './index.css';
 
@@ -9,69 +11,28 @@ interface DashboardProps {
     dashboardId: number;
 }
 
-const tasks: CardTaskProps[] = Object.keys([...new Array<unknown>(10)]).map(taskId => ({
-    taskId: Number(taskId),
-    title: 'Интересный заголовок',
-    tags: Number(taskId) % 2 ===0 ? ['тег', 'тег', 'длииииииииный_тег', 'тег'] : [],
-}));
-
 export const Dashboard: FC<DashboardProps> = ({dashboardId}) => {
+    const { tasks, statuses } = useSelector(selectors.getCurrentBoard);
+    
     return (
         <div className="Dashboard">
+            {statuses.sort((s1, s2) => s1.order - s2.order).map(status => (
+                <div key={status.id} className="Dashboard__column">
+                    <ColumnTasks title={status.name} dashboardId={dashboardId}>
+                        {tasks
+                            .filter(task => task.statusId === status.id)
+                            .map(task => (
+                            <CardTask 
+                                key={task.id} 
+                                taskId={task.id}
+                                title={task.name}
+                            />
+                        ))}
+                    </ColumnTasks>
+                </div>
+            ))}
             <div className="Dashboard__column">
-                <ColumnTasks title='Открыто' dashboardId={dashboardId}>
-                    {tasks.map(task => (
-                        <CardTask 
-                            key={task.taskId} 
-                            taskId={task.taskId}
-                            title={task.title}
-                            tags={task.tags}
-                        />
-                    ))}
-                </ColumnTasks>
-            </div>
-            <div className="Dashboard__column">
-                <ColumnTasks title='В работе' dashboardId={dashboardId}>
-                    {tasks.slice(0, 4).map(task => (
-                        <CardTask 
-                            key={task.taskId} 
-                            taskId={task.taskId}
-                            title={task.title}
-                            tags={task.tags}
-                        />
-                    ))}
-                </ColumnTasks>
-            </div>
-            <div className="Dashboard__column">
-                <ColumnTasks title='На ревью' dashboardId={dashboardId}>
-                    {tasks.map(task => (
-                        <CardTask 
-                            key={task.taskId} 
-                            taskId={task.taskId}
-                            title={task.title}
-                            tags={task.tags}
-                        />
-                    ))}
-                </ColumnTasks>
-            </div>
-            <div className="Dashboard__column">
-                <ColumnTasks title='Решено' dashboardId={dashboardId}>
-                    {tasks.map(task => (
-                        <CardTask 
-                            key={task.taskId} 
-                            taskId={task.taskId}
-                            title={task.title}
-                            tags={task.tags}
-                        />
-                    ))}
-                </ColumnTasks>
-            </div>
-            <div className="Dashboard__column">
-                <ColumnTasks title='Закрыто' dashboardId={dashboardId}>
-                </ColumnTasks>
-            </div>
-            <div className="Dashboard__column">
-                <CreateColumnTask dashboardId={dashboardId} />
+                <CreateColumnTask order={statuses.length} dashboardId={dashboardId} />
             </div>
         </div>
     );
