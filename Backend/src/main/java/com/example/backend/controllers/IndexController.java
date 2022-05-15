@@ -25,7 +25,8 @@ public class IndexController {
             value = {
                     "/",
                     "/dashboard", "/dashboard/*",
-                    "/task", "/task/*"
+                    "/task", "/task/*",
+                    "/profile"
             },
             produces = MediaType.TEXT_HTML_VALUE
     )

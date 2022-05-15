@@ -5,6 +5,9 @@ export const PAGE_DASHBOARD = '/dashboard';
 export const PAGE_DASHBOARD_ID = '/dashboard/:dashboardId';
 export const PAGE_LOGOUT = '/logout';
 
+export const createPathToProfileAchievement = (achievementId: number) =>
+    `${PAGE_PROFILE}?achievementId=${achievementId}`;
+
 export const createPathToDashboard = (dashboardId: number) =>
     `/dashboard/${dashboardId}`;
 
@@ -16,4 +19,5 @@ export const createPathToTask = (taskId: number) =>
 
 export const parametrs = {
     DASHBOARD_ID: 'dashboardId',
+    ACHIEVEMENT_ID: 'achievementId',
 };

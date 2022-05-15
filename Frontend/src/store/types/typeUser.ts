@@ -3,16 +3,18 @@ export interface Achievement {
     name: string;
     description: string;
     points: number;
-    picture?: string;
+    picture: string;
 }
 
 export interface User {
     id: string;
-    picture: string;
+    picture?: string;
     name: string;
     email: string;
     level: number;
     role: UserRole;
+    pointsToLevelUp: number;
+    points: number;
     project: {
         id: number;
         name?: string;

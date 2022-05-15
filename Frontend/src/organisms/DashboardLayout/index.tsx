@@ -28,7 +28,7 @@ export const DashboardLayout: FC<DashboardLayoutProps> = ({children, classNameMa
         <div className="DashboardLayout">
             <div className="DashboardLayout__left">
                 <Typography component="h3" variant="h6" noWrap>
-                    Название организации
+                    Название проекта
                 </Typography>
 
                 <div>

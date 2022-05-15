@@ -50,6 +50,7 @@ const AvatarMenu: FC<AvatarMenuProps> = ({ children, placement='bottom-start' })
                 transition
                 disablePortal
                 placement={placement}
+                className="AvatarMenu__Popper"
             >
                 {({ TransitionProps, placement }) => (
                     <Grow

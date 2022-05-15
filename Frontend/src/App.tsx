@@ -4,9 +4,10 @@ import { useDispatch } from 'react-redux';
 import { Redirect, Route, Switch } from 'react-router-dom';
 
 import './App.css';
-import { PAGE_DASHBOARD, PAGE_DASHBOARD_ID, PAGE_TASK, PAGE_TASK_CREATE } from './common/path';
+import { PAGE_DASHBOARD, PAGE_DASHBOARD_ID, PAGE_PROFILE, PAGE_TASK, PAGE_TASK_CREATE } from './common/path';
 import { DashboardPage } from './pages/_dashboard';
 import { DashboardIdPage } from './pages/_dashboard/@id';
+import ProfilePage from './pages/_profile';
 import TaskIdPage from './pages/_task/@id';
 import TaskCreatePage from './pages/_task/_create';
 import { thunkCreators } from './store';
@@ -22,6 +23,10 @@ const App: React.FC = () => {
         <SnackbarProvider maxSnack={3}>
             <div className="App">
                 <Switch>
+                    <Route path={PAGE_PROFILE}>
+                        <ProfilePage />
+                    </Route>
+
                     <Route path={PAGE_TASK_CREATE}>
                         <TaskCreatePage />
                     </Route>
