@@ -5,9 +5,10 @@ import AddIcon from '@mui/icons-material/Add';
 import './index.css';
 import { Link, useParams } from 'react-router-dom';
 import classNames from 'classnames';
-import { PAGE_PROJECT } from '../../common/path';
+import { PAGE_DASHBOARD_CREATE, PAGE_PROJECT } from '../../common/path';
 import { useSelector } from 'react-redux';
 import { selectors } from '../../store';
+import { UserRole } from '../../store/types/typeUser';
 
 interface DashboardLayoutProps {
     classNameMain?: string;
@@ -16,8 +17,10 @@ interface DashboardLayoutProps {
 
 export const DashboardLayout: FC<DashboardLayoutProps> = ({children, classNameMain}) => {
     const { dashboardId } = useParams<{dashboardId: string}>();
-    const { project } = useSelector(selectors.selectUser) || {};
+    const { project, role } = useSelector(selectors.selectUser) || {};
     const boards = useSelector(selectors.selectPrimaryBoards);
+
+    const isAdmin = role === UserRole.PROJECT_ADMIN;
 
     return (
         <div className="DashboardLayout">
@@ -33,7 +36,11 @@ export const DashboardLayout: FC<DashboardLayoutProps> = ({children, classNameMa
                         <span className="DashboardLeft__subtitle">
                             Доски
                         </span>
-                        <AddIcon fontSize="small" className="DashboardLeft__action" />
+                        {isAdmin && (
+                            <Link to={PAGE_DASHBOARD_CREATE} className="ignoreLinkStyle">
+                                <AddIcon fontSize="small" className="DashboardLeft__action" />
+                            </Link>
+                        )}
                     </Typography>
 
                     <List className="DashboardLeft__list">

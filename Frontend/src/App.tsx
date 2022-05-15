@@ -4,9 +4,10 @@ import { useDispatch } from 'react-redux';
 import { Redirect, Route, Switch } from 'react-router-dom';
 
 import './App.css';
-import { PAGE_DASHBOARD, PAGE_DASHBOARD_ID, PAGE_PROFILE, PAGE_PROJECT, PAGE_TASK, PAGE_TASK_CREATE } from './common/path';
+import { PAGE_DASHBOARD, PAGE_DASHBOARD_CREATE, PAGE_DASHBOARD_ID, PAGE_PROFILE, PAGE_PROJECT, PAGE_TASK, PAGE_TASK_CREATE } from './common/path';
 import { DashboardPage } from './pages/_dashboard';
 import { DashboardIdPage } from './pages/_dashboard/@id';
+import DashboardCreatePage from './pages/_dashboard/_create';
 import ProjectPage from './pages/_poject';
 import ProfilePage from './pages/_profile';
 import TaskIdPage from './pages/_task/@id';
@@ -38,6 +39,10 @@ const App: React.FC = () => {
 
                     <Route path={PAGE_TASK}>
                         <TaskIdPage />
+                    </Route>
+
+                    <Route path={PAGE_DASHBOARD_CREATE}>
+                        <DashboardCreatePage />
                     </Route>
 
                     <Route path={PAGE_DASHBOARD_ID}>

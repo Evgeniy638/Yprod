@@ -11,5 +11,8 @@ interface Response {
     description: string;
 }
 
-export const createBoard = async (args: CreateBoardArgs) =>
-    instance.post<Response>('/api/board', args);
+export const createBoard = async (args: CreateBoardArgs) => {
+    const response = await instance.post<Response>('/api/board', args);
+
+    return response.data;
+};
