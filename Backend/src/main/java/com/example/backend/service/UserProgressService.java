@@ -72,7 +72,7 @@ public class UserProgressService {
             throw new BadRequestException();
         }
         Achievement achievement = achievementService.getAchievement(achievementId).orElseThrow(NotFoundException::new);
-        UserProgress userProgress = userProgressRepo.findFirstByUser(user).orElse(getNewUserProgress(project, user));
+        UserProgress userProgress = userProgressRepo.findFirstByUser(user).orElse(createUserProgress(project, user));
         Set<Achievement> achievementSet = userProgress.getAchievements();
         if (achievementSet.stream().noneMatch(achievementFromSet -> achievementFromSet.getId().equals(achievementId))) {
             achievementSet.add(achievement);
@@ -93,7 +93,7 @@ public class UserProgressService {
     public void depriveAchievement(OidcUser admin, Long achievementId, AssignAndDepriveAchievementRequest request) {
         User user = userService.findUserByEmail(request.getEmail()).orElseThrow(NotFoundException::new);
         Project project = getProjectByAdminAndUser(admin, user);
-        UserProgress userProgress = userProgressRepo.findFirstByUser(user).orElse(getNewUserProgress(project, user));
+        UserProgress userProgress = userProgressRepo.findFirstByUser(user).orElse(createUserProgress(project, user));
         Set<Achievement> achievementSet = userProgress.getAchievements();
         Achievement achievement = achievementSet.stream()
                 .filter((achievementFromSet) -> achievementFromSet.getId().equals(achievementId))
@@ -111,14 +111,14 @@ public class UserProgressService {
         userProgressRepo.save(userProgress);
     }
 
-    private UserProgress getNewUserProgress(Project project, User user) {
+    public UserProgress createUserProgress(Project project, User user) {
         UserProgress userProgress = new UserProgress();
         userProgress.setUser(user);
         userProgress.setProject(project);
         userProgress.setLevel(1L);
         userProgress.setPoints(0L);
         userProgress.setAchievements(new HashSet<>());
-        return userProgress;
+        return userProgressRepo.save(userProgress);
     }
 
     /**

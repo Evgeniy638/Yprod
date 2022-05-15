@@ -88,6 +88,11 @@ public class ProjectService {
         return projectRepo.findFirstByAdminsContains(user);
     }
 
+    public Optional<Project> getProjectByUser(User user) {
+        return projectRepo.findFirstByUsersContains(user);
+    }
+
+
     /**
      * Создает проект
      *
