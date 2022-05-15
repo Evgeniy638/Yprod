@@ -9,3 +9,14 @@
 .Header__title {
     margin: 0;
 }
+
+.Header__avatarWrap {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+}
+
+.Header__usesrname {
+    margin-right: var(--margin-secondary);
+}
+
