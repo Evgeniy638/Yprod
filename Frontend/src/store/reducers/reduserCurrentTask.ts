@@ -1,7 +1,29 @@
 import { StateTask, ActionCurrentTask, ListTypeTaskActions } from './../types/typeTask';
 
 const initialState: StateTask = {
-    taskStatuses: [],
+    task: {
+        id: 1,
+        name: 'Название',
+        description: 'Описание описание описание описание описание описание описание',
+        status: 'Открыто',
+        storyPoints: 0.5,
+        boardId: 1,
+        executor: {
+            name: 'Фамилия Евгений Валерьевич',
+        }
+    },
+    taskStatuses: [
+        {
+            id: 1,
+            name: 'Открыто',
+            order: 1,
+        },
+        {
+            id: 2,
+            name: 'Работа',
+            order: 2,
+        },
+    ],
 };
 
 export const reduserCurrentTask = (

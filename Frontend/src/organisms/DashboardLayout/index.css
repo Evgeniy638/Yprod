@@ -57,6 +57,7 @@
 
 .DashboardLayout__main::-webkit-scrollbar {
     height: var(--size-scrollbar);
+    width: var(--size-scrollbar);
 }
 
 .DashboardLayout__main::-webkit-scrollbar-thumb {
