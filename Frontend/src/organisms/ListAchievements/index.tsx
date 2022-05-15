@@ -1,8 +1,8 @@
 import { Typography } from '@mui/material';
 import classNames from 'classnames';
 import React, { FC } from 'react';
-import { Link } from 'react-router-dom';
-import { createPathToProfileAchievement, parametrs } from '../../common/path';
+import { Link, useLocation } from 'react-router-dom';
+import { parametrs } from '../../common/path';
 import { useQuery } from '../../hooks/useQuery';
 import { Achievement } from '../../store/types/typeUser';
 import AchievementModal from '../AchievementModal';
@@ -26,9 +26,11 @@ const ItemListAchievements: FC<ItemListAchievementsProps> = ({
     points,
     picture
 }) => {
+    const { pathname } = useLocation();
+
     return (
         <Link
-            to={createPathToProfileAchievement(id)}
+            to={`/${pathname}?${parametrs.ACHIEVEMENT_ID}=${id}`}
             className={classNames('ItemListAchievements', 'ignoreLinkStyle')}
         >
             <img className="ItemListAchievements__img" src={picture} alt={name} />

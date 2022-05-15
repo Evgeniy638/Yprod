@@ -12,6 +12,18 @@ export const reducerProject = (
                 ...state,
                 project: action.project,
             };
+        
+        case ListTypeProjectActions.ADD_ACHIEVEMENT_TO_PROJECT:
+            return {
+                ...state,
+                project: {
+                    ...state.project,
+                    achievements: [
+                        ...state.project.achievements,
+                        action.achievement,
+                    ],
+                },
+            };
 
         default:
             return state;

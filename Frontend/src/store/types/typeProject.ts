@@ -8,11 +8,12 @@ export interface Project {
 }
 
 export interface StateProject {
-    project?: Project;
+    project?: Project | undefined;
 }
 
 export enum ListTypeProjectActions {
     SET_CURRENT_PROJECT = 'SET_CURRENT_PROJECT',
+    ADD_ACHIEVEMENT_TO_PROJECT = 'ADD_ACHIEVEMENT_TO_PROJECT',
 }
 
 interface SetCurrentProject {
@@ -20,4 +21,10 @@ interface SetCurrentProject {
     project: Project;
 }
 
-export type ActionProject = SetCurrentProject;
+interface AddAchievementToProject {
+    type: ListTypeProjectActions.ADD_ACHIEVEMENT_TO_PROJECT;
+    achievement: Achievement;
+}
+
+export type ActionProject = SetCurrentProject
+    | AddAchievementToProject;

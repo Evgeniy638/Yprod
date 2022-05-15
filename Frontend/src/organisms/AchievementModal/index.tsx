@@ -1,7 +1,6 @@
 import { Typography } from '@mui/material';
 import React, { FC } from 'react';
-import { useHistory } from 'react-router-dom';
-import { PAGE_PROFILE } from '../../common/path';
+import { useHistory, useLocation } from 'react-router-dom';
 import Modal from '../../molecules/Modal';
 
 import './index.css';
@@ -21,9 +20,10 @@ const AchievementModal: FC<AchievementModalProps> = ({
     picture,
 }) => {
     const history = useHistory();
+    const location = useLocation();
 
     const handleClose = () => {
-        history.replace(PAGE_PROFILE);
+        history.replace(location.pathname);
     };
 
     return (

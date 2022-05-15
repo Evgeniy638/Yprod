@@ -186,7 +186,7 @@ public class ApiController {
     @GetMapping("/project/{id}")
     public ResponseEntity<ProjectResponse> getProject(@AuthenticationPrincipal OidcUser user, @PathVariable("id") long id) {
         try {
-            userService.validateAccessToProject(user, boardService.getProjectByBoardId(id));
+            userService.validateAccessToProject(user, projectService.getProject(id).get());
             return new ResponseEntity<>(projectService.buildProjectResponse(id), HttpStatus.OK);
         } catch (Exception e) {
             return getResponseEntityByException(e);

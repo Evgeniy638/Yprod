@@ -1,7 +1,6 @@
 import { Avatar, Typography } from '@mui/material';
 import React, { FC } from 'react';
 import { Link } from 'react-router-dom';
-import { PAGE_DASHBOARD } from '../../common/path';
 import AvatarMenu from '../AvatarMenu';
 
 import './index.css';
@@ -15,7 +14,7 @@ interface HeaderProps {
 export const Header: FC<HeaderProps> = ({title, usesrname, avatarSrc}) => {
     return (
         <header className='Header'>
-            <Link to={PAGE_DASHBOARD} className="ignoreLinkStyle">
+            <Link to="/" className="ignoreLinkStyle">
                 <Typography
                     variant="h4"
                     component="h1"
@@ -33,7 +32,7 @@ export const Header: FC<HeaderProps> = ({title, usesrname, avatarSrc}) => {
                         </span>
                     )}
                     <Avatar
-                        alt={`avatar ${usesrname}`}
+                        alt={usesrname}
                         src={avatarSrc}
                     />
                 </div>

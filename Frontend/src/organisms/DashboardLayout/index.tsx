@@ -1,20 +1,13 @@
 import React, { FC, ReactNode } from 'react';
-import { List, ListItem, ListItemButton, ListItemText, Typography } from '@mui/material';
+import { List, ListItem, ListItemButton, ListItemText, Skeleton, Typography } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 
 import './index.css';
 import { Link, useParams } from 'react-router-dom';
 import classNames from 'classnames';
-
-interface ItemListBoard {
-    text: string; 
-    id: string;
-}
-
-const listBoard: ItemListBoard[] = [...(new Array<undefined>(30))].map((_val, index) => ({
-    text: `Доска ${index}`,
-    id: String(index),
-}));
+import { PAGE_PROJECT } from '../../common/path';
+import { useSelector } from 'react-redux';
+import { selectors } from '../../store';
 
 interface DashboardLayoutProps {
     classNameMain?: string;
@@ -23,13 +16,17 @@ interface DashboardLayoutProps {
 
 export const DashboardLayout: FC<DashboardLayoutProps> = ({children, classNameMain}) => {
     const { dashboardId } = useParams<{dashboardId: string}>();
+    const { project } = useSelector(selectors.selectUser) || {};
+    const boards = useSelector(selectors.selectPrimaryBoards);
 
     return (
         <div className="DashboardLayout">
             <div className="DashboardLayout__left">
-                <Typography component="h3" variant="h6" noWrap>
-                    Название проекта
-                </Typography>
+                <Link to={PAGE_PROJECT} className="ignoreLinkStyle">
+                    <Typography component="h3" variant="h6" noWrap>
+                        {project?.name || <Skeleton variant="rectangular" width={210} height={32} />}
+                    </Typography>
+                </Link>
 
                 <div>
                     <Typography component="h4" variant="h6" noWrap className="DashboardLeft__subtitleWrap">
@@ -40,13 +37,13 @@ export const DashboardLayout: FC<DashboardLayoutProps> = ({children, classNameMa
                     </Typography>
 
                     <List className="DashboardLeft__list">
-                        {listBoard.map(({id, text}) => (
+                        {boards.map(({id, name}) => (
                             <Link to={`/dashboard/${id}`} className="DashboardLayout__link" key={id}>
                                 <ListItem disablePadding className={classNames({
-                                    DashboardLayout__licstItem_active: dashboardId === id,
+                                    DashboardLayout__licstItem_active: dashboardId === String(id),
                                 })}>
                                     <ListItemButton>
-                                        <ListItemText primary={text} />
+                                        <ListItemText primary={name} />
                                     </ListItemButton>
                                 </ListItem>
                             </Link>

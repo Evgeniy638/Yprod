@@ -1,7 +1,7 @@
 import React, { FC, useCallback, useMemo, useState } from 'react';
 import { Button, TextField } from '@mui/material';
 import { useHistory } from 'react-router-dom';
-import { FormikHelpers, useFormik } from 'formik';
+import { useFormik } from 'formik';
 import { useDispatch } from 'react-redux';
 import { CreateTaskSchema, validationSchema } from './schema';
 import { useSnackbar } from 'notistack';
@@ -29,8 +29,7 @@ const CreateTaskForm: FC<CreateTaskFormProps> = ({ dashboardId }) => {
 
     const [isSubmiting, setIsSubmiting] = useState<boolean>(false);
 
-
-    const onSubmit = useCallback(async (values: CreateTaskSchema, formikHelpers: FormikHelpers<CreateTaskSchema>) => {
+    const onSubmit = useCallback(async (values: CreateTaskSchema) => {
         setIsSubmiting(true);
 
         try {
@@ -44,7 +43,6 @@ const CreateTaskForm: FC<CreateTaskFormProps> = ({ dashboardId }) => {
         }
 
         setIsSubmiting(false);
-        formikHelpers.resetForm();
     }, [dispatch, enqueueSnackbar, history]);
 
     const formik = useFormik({
