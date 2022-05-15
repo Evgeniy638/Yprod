@@ -8,4 +8,6 @@ import java.util.Optional;
 
 public interface ProjectRepo extends JpaRepository<Project, Long> {
     Optional<Project> findFirstByAdminsContains(User admin);
+
+    Optional<Project> findFirstByUsersContains(User user);
 }
