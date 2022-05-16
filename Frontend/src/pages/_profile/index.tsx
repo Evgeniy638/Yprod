@@ -13,7 +13,7 @@ const ProfilePage: FC = () => {
         if (!achievements?.length) {
             dispatch(thunkCreators.setUserAchivements());
         }
-    }, [achievements]);
+    }, []);
 
     return (
         <Page>
