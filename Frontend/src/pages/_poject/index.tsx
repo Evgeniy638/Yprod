@@ -13,10 +13,10 @@ const ProjectPage: FC = () => {
     const dispatch = useDispatch();
 
     useEffect(() => {
-        if (!project && userProject) {
+        if (!project && userProject?.id) {
             dispatch(thunkCreators.setCurrentProject(userProject.id));
         }
-    }, [userProject, project]);
+    }, [userProject?.id, project]);
 
     return (
         <Page>
