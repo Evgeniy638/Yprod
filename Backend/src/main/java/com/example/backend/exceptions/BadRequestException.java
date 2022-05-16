@@ -4,6 +4,10 @@ import org.springframework.http.HttpStatus;
 
 public class BadRequestException extends ServerException {
 
+    public BadRequestException(String message) {
+        super(message);
+    }
+
     public BadRequestException() {
         super("Bad Request (400)");
     }

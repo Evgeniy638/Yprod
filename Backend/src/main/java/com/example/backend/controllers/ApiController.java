@@ -56,7 +56,7 @@ public class ApiController {
     @GetMapping("/achievement/{id}/picture")
     public ResponseEntity<GetAchievementPictureResponse> getAchievementPicture(@AuthenticationPrincipal OidcUser user, @PathVariable("id") long id) {
         try {
-            userService.validateAccessToProject(user, achievementService.getProjectByAchievementId(id));
+            userService.validateAccessByProject(user, achievementService.getProjectByAchievementId(id));
             return new ResponseEntity<>(achievementService.buildGetAchievementPictureResponse(id), HttpStatus.OK);
         } catch (Exception e) {
             return getResponseEntityByException(e);
@@ -66,7 +66,7 @@ public class ApiController {
     @GetMapping("/project/{id}/board")
     public ResponseEntity<GetBoardsResponse> getBoards(@AuthenticationPrincipal OidcUser user, @PathVariable("id") long id) {
         try {
-            userService.validateAccessToProject(user, projectService.getProject(id).orElseThrow(NotFoundException::new));
+            userService.validateAccessByProject(user, projectService.getProject(id).orElseThrow(NotFoundException::new));
             return new ResponseEntity<>(boardService.buildGetBoardsResponse(id), HttpStatus.OK);
         } catch (Exception e) {
             return getResponseEntityByException(e);
@@ -76,7 +76,7 @@ public class ApiController {
     @GetMapping("/board/{id}")
     public ResponseEntity<GetBoardInfoResponse> getBoard(@AuthenticationPrincipal OidcUser user, @PathVariable("id") long id) {
         try {
-            userService.validateAccessToProject(user, boardService.getProjectByBoardId(id));
+            userService.validateAccessByProject(user, boardService.getProjectByBoardId(id));
             return new ResponseEntity<>(boardService.buildGetBoardInfoResponse(id), HttpStatus.OK);
         } catch (Exception e) {
             return getResponseEntityByException(e);
@@ -86,7 +86,7 @@ public class ApiController {
     @PostMapping("/project/access")
     public ResponseEntity<Void> grantAccess(@AuthenticationPrincipal OidcUser user, GrantAccessRequest request) {
         try {
-            userService.validateAdminOfProject(user, projectService.getProject(request.getProjectId()).orElseThrow(NotFoundException::new));
+            userService.validateAdminByProject(user, projectService.getProject(request.getProjectId()).orElseThrow(NotFoundException::new));
             projectService.grandAccess(request);
             return new ResponseEntity<>(HttpStatus.OK);
         } catch (Exception e) {
@@ -97,7 +97,7 @@ public class ApiController {
     @PostMapping("/board")
     public ResponseEntity<CreateBoardResponse> createBoard(@AuthenticationPrincipal OidcUser user, CreateBoardRequest request) {
         try {
-            userService.validateAdminOfProject(user, projectService.getProject(request.getProjectId()).orElseThrow(NotFoundException::new));
+            userService.validateAdminByProject(user, projectService.getProject(request.getProjectId()).orElseThrow(NotFoundException::new));
             return new ResponseEntity<>(boardService.create(request), HttpStatus.OK);
         } catch (Exception e) {
             return getResponseEntityByException(e);
@@ -107,7 +107,7 @@ public class ApiController {
     @PostMapping("/board/{id}/status")
     public ResponseEntity<CreateStatusResponse> createStatus(@AuthenticationPrincipal OidcUser user, @PathVariable("id") long id, CreateStatusRequest request) {
         try {
-            userService.validateAdminOfProject(user, boardService.getProjectByBoardId(id));
+            userService.validateAdminByProject(user, boardService.getProjectByBoardId(id));
             return new ResponseEntity<>(taskStatusService.create(id, request), HttpStatus.OK);
         } catch (Exception e) {
             return getResponseEntityByException(e);
@@ -117,7 +117,7 @@ public class ApiController {
     @PostMapping("/board/{id}/task")
     public ResponseEntity<TaskResponse> createTask(@AuthenticationPrincipal OidcUser user, @PathVariable("id") long id, CreateTaskRequest request) {
         try {
-            userService.validateAccessToProject(user, boardService.getProjectByBoardId(id));
+            userService.validateAccessByProject(user, boardService.getProjectByBoardId(id));
             return new ResponseEntity<>(taskService.create(user, id, request), HttpStatus.OK);
         } catch (Exception e) {
             return getResponseEntityByException(e);
@@ -127,7 +127,7 @@ public class ApiController {
     @GetMapping("/task/{id}")
     public ResponseEntity<TaskResponse> getTask(@AuthenticationPrincipal OidcUser user, @PathVariable("id") long id) {
         try {
-            userService.validateAccessToProject(user, taskService.getProjectByTaskId(id));
+            userService.validateAccessByProject(user, taskService.getProjectByTaskId(id));
             return new ResponseEntity<>(taskService.getTaskResponse(id), HttpStatus.OK);
         } catch (Exception e) {
             return getResponseEntityByException(e);
@@ -137,7 +137,7 @@ public class ApiController {
     @PutMapping("/task/{id}")
     public ResponseEntity<TaskResponse> editTask(@AuthenticationPrincipal OidcUser user, @PathVariable("id") long id, EditTaskRequest request) {
         try {
-            userService.validateAccessToProject(user, taskService.getProjectByTaskId(id));
+            userService.validateAccessByProject(user, taskService.getProjectByTaskId(id));
             return new ResponseEntity<>(taskService.edit(id, request), HttpStatus.OK);
         } catch (Exception e) {
             return getResponseEntityByException(e);
@@ -147,7 +147,7 @@ public class ApiController {
     @GetMapping("/board/{id}/taskstatuses")
     public ResponseEntity<List<StatusResponse>> getTaskStatuses(@AuthenticationPrincipal OidcUser user, @PathVariable("id") long id) {
         try {
-            userService.validateAccessToProject(user, boardService.getProjectByBoardId(id));
+            userService.validateAccessByProject(user, boardService.getProjectByBoardId(id));
             return new ResponseEntity<>(taskStatusService.buildGetStatusesResponse(id), HttpStatus.OK);
         } catch (Exception e) {
             return getResponseEntityByException(e);
@@ -186,7 +186,7 @@ public class ApiController {
     @GetMapping("/project/{id}")
     public ResponseEntity<ProjectResponse> getProject(@AuthenticationPrincipal OidcUser user, @PathVariable("id") long id) {
         try {
-            userService.validateAccessToProject(user, projectService.getProject(id).get());
+            userService.validateAccessByProject(user, projectService.getProject(id).orElseThrow(NotFoundException::new));
             return new ResponseEntity<>(projectService.buildProjectResponse(id), HttpStatus.OK);
         } catch (Exception e) {
             return getResponseEntityByException(e);

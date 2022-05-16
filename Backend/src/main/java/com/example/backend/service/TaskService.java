@@ -46,7 +46,7 @@ public class TaskService {
 
     @SneakyThrows
     public TaskResponse getTaskResponse(Long id) {
-        return buildTaskResponse(getTask(id).orElseThrow(NotFoundException::new));
+        return buildTaskResponse(getTask(id).orElseThrow(() -> new NotFoundException("")));
     }
 
     @SneakyThrows

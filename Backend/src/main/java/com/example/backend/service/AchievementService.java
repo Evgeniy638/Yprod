@@ -63,7 +63,7 @@ public class AchievementService {
     @SneakyThrows
     public AchievementResponse createAchievement(OidcUser oidcUser, CreateAchievementRequest request) {
         User user = userService.findUserByOidcUser(oidcUser).orElseThrow(NotFoundException::new);
-        Project project = projectService.getProjectByAdmin(user).orElseThrow(NotFoundException::new);
+        Project project = user.getProjectsWithAdminRole().stream().findFirst().orElseThrow(NotFoundException::new);
         Achievement achievement = new Achievement();
         achievement.setName(request.getName());
         achievement.setDescription(request.getDescription());
