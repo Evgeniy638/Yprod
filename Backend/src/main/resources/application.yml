@@ -12,15 +12,13 @@ spring:
   jpa:
     open-in-view: false
     hibernate.ddl-auto: ${HIBERNATE_DDL_AUTO:update}
-  profiles:
-    active: local
   security:
     oauth2:
       client:
         registration:
           google:
-            client-id: 270228412426-eu2nbfvcc7d3u3a18tpa6scj44i9s23i.apps.googleusercontent.com
-            client-secret: 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
+            client-id: ${OAUTH2_CLIENT_ID}
+            client-secret: ${OAUTH2_CLIENT_SECRET}
 
 server:
   port: ${PORT:8080}

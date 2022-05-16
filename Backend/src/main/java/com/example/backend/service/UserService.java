@@ -40,7 +40,7 @@ public class UserService extends OidcUserService {
     private final AchievementService achievementService;
 
     @SneakyThrows
-    public void validateAccessToProject(OidcUser oidcUser, Project project) {
+    public void validateAccessByProject(OidcUser oidcUser, Project project) {
         if (project.getUsers().stream().anyMatch(user -> user.getEmail().equals(oidcUser.getEmail()))) {
             return;
         }
@@ -48,7 +48,7 @@ public class UserService extends OidcUserService {
     }
 
     @SneakyThrows
-    public void validateAdminOfProject(OidcUser oidcUser, Project project) {
+    public void validateAdminByProject(OidcUser oidcUser, Project project) {
         if (project.getAdmins().stream().anyMatch(admin -> admin.getEmail().equals(oidcUser.getEmail()))) {
             return;
         }
@@ -69,7 +69,7 @@ public class UserService extends OidcUserService {
     public GetUserResponse buildGetUserResponse(OidcUser oidcUser) {
         Optional<User> userOptional = findUserByOidcUser(oidcUser);
         User user = userOptional.orElseThrow(NotFoundException::new);
-        Project project = projectService.getProjectByUser(user).orElseThrow(NotFoundException::new);
+        Project project = user.getProjects().stream().findFirst().orElseThrow(NotFoundException::new);
         UserProgress userProgress = user.getUserProgressSet().stream().findFirst().orElse(userProgressService.createUserProgress(project, user));
         return new GetUserResponse()
                 .setId(user.getId())
@@ -80,7 +80,7 @@ public class UserService extends OidcUserService {
                 .setPoints(userProgress.getPoints())
                 .setPointsToLevelUp(userProgressService.getPointsToLevelUp(userProgress))
                 .setProject(projectService.buildProjectShortResponse(project))
-                .setRole(projectService.getUserProjectRole(user, userProgress.getProject()));
+                .setRole(projectService.getUserProjectRole(user, project));
     }
 
     @SneakyThrows
@@ -102,7 +102,7 @@ public class UserService extends OidcUserService {
     }
 
     public Optional<User> findUserByOidcUser(OidcUser oidcUser) {
-        return findUserByEmail(oidcUser.getEmail());
+        return userRepo.findById(new GoogleUserInfo(oidcUser.getAttributes()).getId());
     }
 
     @Override

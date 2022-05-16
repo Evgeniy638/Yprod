@@ -56,8 +56,9 @@ public class UserProgressService {
     }
 
     @SneakyThrows
-    public Project getProjectByAdminAndUser(OidcUser admin, User user) {
-        Project project = projectService.getProjectByAdmin(userService.findUserByOidcUser(admin).orElseThrow(NotFoundException::new)).orElseThrow(NotFoundException::new);
+    public Project getProjectByAdminAndUser(OidcUser oidcAdmin, User user) {
+        User admin = userService.findUserByOidcUser(oidcAdmin).orElseThrow(NotFoundException::new);
+        Project project = admin.getProjectsWithAdminRole().stream().findFirst().orElseThrow(NotFoundException::new);
         if (project.getUsers().stream().anyMatch(projectUser -> projectUser.getId().equals(user.getId()))) {
             return project;
         }
