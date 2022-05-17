@@ -20,6 +20,7 @@ public class Achievement {
 
     private String description;
 
+    @Column(columnDefinition = "character varying")
     private String picture;
 
     private Integer points;
