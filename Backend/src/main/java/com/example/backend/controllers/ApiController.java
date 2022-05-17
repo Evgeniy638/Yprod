@@ -84,7 +84,7 @@ public class ApiController {
     }
 
     @PostMapping("/project/access")
-    public ResponseEntity<Void> grantAccess(@AuthenticationPrincipal OidcUser user, GrantAccessRequest request) {
+    public ResponseEntity<Void> grantAccess(@AuthenticationPrincipal OidcUser user, @RequestBody GrantAccessRequest request) {
         try {
             userService.validateAdminByProject(user, projectService.getProject(request.getProjectId()).orElseThrow(NotFoundException::new));
             projectService.grandAccess(request);
@@ -95,7 +95,7 @@ public class ApiController {
     }
 
     @PostMapping("/board")
-    public ResponseEntity<CreateBoardResponse> createBoard(@AuthenticationPrincipal OidcUser user, CreateBoardRequest request) {
+    public ResponseEntity<CreateBoardResponse> createBoard(@AuthenticationPrincipal OidcUser user,  @RequestBody CreateBoardRequest request) {
         try {
             userService.validateAdminByProject(user, projectService.getProject(request.getProjectId()).orElseThrow(NotFoundException::new));
             return new ResponseEntity<>(boardService.create(request), HttpStatus.OK);
@@ -105,7 +105,7 @@ public class ApiController {
     }
 
     @PostMapping("/board/{id}/status")
-    public ResponseEntity<CreateStatusResponse> createStatus(@AuthenticationPrincipal OidcUser user, @PathVariable("id") long id, CreateStatusRequest request) {
+    public ResponseEntity<CreateStatusResponse> createStatus(@AuthenticationPrincipal OidcUser user, @PathVariable("id") long id, @RequestBody CreateStatusRequest request) {
         try {
             userService.validateAdminByProject(user, boardService.getProjectByBoardId(id));
             return new ResponseEntity<>(taskStatusService.create(id, request), HttpStatus.OK);
@@ -115,7 +115,7 @@ public class ApiController {
     }
 
     @PostMapping("/board/{id}/task")
-    public ResponseEntity<TaskResponse> createTask(@AuthenticationPrincipal OidcUser user, @PathVariable("id") long id, CreateTaskRequest request) {
+    public ResponseEntity<TaskResponse> createTask(@AuthenticationPrincipal OidcUser user, @PathVariable("id") long id, @RequestBody CreateTaskRequest request) {
         try {
             userService.validateAccessByProject(user, boardService.getProjectByBoardId(id));
             return new ResponseEntity<>(taskService.create(user, id, request), HttpStatus.OK);
@@ -135,7 +135,7 @@ public class ApiController {
     }
 
     @PutMapping("/task/{id}")
-    public ResponseEntity<TaskResponse> editTask(@AuthenticationPrincipal OidcUser user, @PathVariable("id") long id, EditTaskRequest request) {
+    public ResponseEntity<TaskResponse> editTask(@AuthenticationPrincipal OidcUser user, @PathVariable("id") long id, @RequestBody EditTaskRequest request) {
         try {
             userService.validateAccessByProject(user, taskService.getProjectByTaskId(id));
             return new ResponseEntity<>(taskService.edit(id, request), HttpStatus.OK);
@@ -155,7 +155,7 @@ public class ApiController {
     }
 
     @PostMapping("/achievement")
-    public ResponseEntity<AchievementResponse> createAchievement(@AuthenticationPrincipal OidcUser user, CreateAchievementRequest request) {
+    public ResponseEntity<AchievementResponse> createAchievement(@AuthenticationPrincipal OidcUser user, @RequestBody CreateAchievementRequest request) {
         try {
             return new ResponseEntity<>(achievementService.createAchievement(user, request), HttpStatus.OK);
         } catch (Exception e) {
@@ -164,7 +164,7 @@ public class ApiController {
     }
 
     @PostMapping("/achievement/{id}/assign")
-    public ResponseEntity<Void> assignAchievement(@AuthenticationPrincipal OidcUser user, @PathVariable("id") long id, AssignAndDepriveAchievementRequest request) {
+    public ResponseEntity<Void> assignAchievement(@AuthenticationPrincipal OidcUser user, @PathVariable("id") long id, @RequestBody AssignAndDepriveAchievementRequest request) {
         try {
             userProgressService.assignAchievement(user, id, request);
             return new ResponseEntity<>(HttpStatus.OK);
@@ -174,7 +174,7 @@ public class ApiController {
     }
 
     @PostMapping("/achievement/{id}/deprive")
-    public ResponseEntity<Void> depriveAchievement(@AuthenticationPrincipal OidcUser user, @PathVariable("id") long id, AssignAndDepriveAchievementRequest request) {
+    public ResponseEntity<Void> depriveAchievement(@AuthenticationPrincipal OidcUser user, @PathVariable("id") long id, @RequestBody AssignAndDepriveAchievementRequest request) {
         try {
             userProgressService.depriveAchievement(user, id, request);
             return new ResponseEntity<>(HttpStatus.OK);

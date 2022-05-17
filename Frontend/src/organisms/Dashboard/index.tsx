@@ -12,7 +12,7 @@ interface DashboardProps {
 }
 
 export const Dashboard: FC<DashboardProps> = ({dashboardId}) => {
-    const { tasks, statuses } = useSelector(selectors.getCurrentBoard);
+    const { tasks=[], statuses=[] } = useSelector(selectors.getCurrentBoard) || {};
     
     return (
         <div className="Dashboard">
