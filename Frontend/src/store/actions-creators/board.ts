@@ -9,3 +9,9 @@ export const addStatus = (status: Status): ActionBoard => ({
     type: ListTypeBoardActions.ADD_STATUS,
     status,
 });
+
+export const changeTaskStatus = (statusId: number, taskId: number): ActionBoard => ({
+    type: ListTypeBoardActions.CHANGE_TASK_STATUS,
+    statusId,
+    taskId,
+});

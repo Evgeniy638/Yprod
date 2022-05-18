@@ -13,6 +13,24 @@ export const reducerBoard = (
                 ...state,
                 board: action.board,
             };
+
+        case ListTypeBoardActions.CHANGE_TASK_STATUS:
+            return {
+                ...state,
+                board: {
+                    ...state.board,
+                    tasks: state.board?.tasks?.map((task) => {
+                        if (task.id === action.taskId) {
+                            return {
+                                ...task,
+                                statusId: action.statusId,
+                            };
+                        }
+
+                        return task;
+                    }),
+                },
+            };
         
             
         case ListTypeBoardActions.ADD_STATUS:

@@ -30,6 +30,7 @@ export interface StateBoard {
 export enum ListTypeBoardActions {
     SET_CURRENT_BOARD = 'SET_CURRENT_BOARD',
     ADD_STATUS = 'ADD_STATUS',
+    CHANGE_TASK_STATUS = 'CHANGE_TASK_STATUS',
 }
 
 interface SetCurrentBoard {
@@ -42,4 +43,10 @@ interface AddStatus {
     status: Status;
 }
 
-export type ActionBoard = SetCurrentBoard | AddStatus;
+interface ChangeTaskStatus {
+    type: ListTypeBoardActions.CHANGE_TASK_STATUS;
+    statusId: number;
+    taskId: number;
+}
+
+export type ActionBoard = SetCurrentBoard | AddStatus | ChangeTaskStatus;

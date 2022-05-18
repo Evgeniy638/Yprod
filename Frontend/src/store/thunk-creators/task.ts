@@ -12,3 +12,20 @@ export const setCurrentTask = (taskId: number) =>
 
         dispatch(actionsCreators.setTaskStatuses(statuses));
     };
+
+interface ChangeStatusTaskArgs {
+    taskId: number;
+    statusId: number;
+}
+
+export const changeStatusTask = ({
+    taskId,
+    statusId,
+}: ChangeStatusTaskArgs) => 
+    async (dispatch: AppDispatch) => {
+        dispatch(actionsCreators.changeTaskStatus(statusId, taskId));
+
+        await api.updateTask({ taskId, data: {
+            statusId,
+        }});
+    };

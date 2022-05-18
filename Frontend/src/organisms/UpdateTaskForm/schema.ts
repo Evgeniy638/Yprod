@@ -4,7 +4,7 @@ export interface UpdateTaskSchema {
     name: string;
     description: string;
     storyPoints: number;
-    executorEmail: string;
+    executorEmail?: string;
     statusId: number;
 }
 
@@ -16,17 +16,14 @@ export const validationSchema: yup.SchemaOf<UpdateTaskSchema> = yup.object({
         .required('Название обязательно'),
     description: yup
         .string()
-        .min(10, 'Минимальная длина описания 10 символов')
-        .max(5000, 'Максимальная длина описания 5000 символов')
-        .required('Описание обязательно'),
+        .max(5000, 'Максимальная длина описания 5000 символов'),
     storyPoints: yup
         .number()
         .min(0, 'Минимальное значение сторипоинтов 0')
         .required('Сторипоинты'),
     executorEmail: yup
         .string()
-        .email('Должно быть в формате email')
-        .required('Email исполнителя обязателен'),
+        .email('Должно быть в формате email'),
     statusId: yup
         .number()
         .required(),

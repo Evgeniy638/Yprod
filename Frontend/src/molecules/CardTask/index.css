@@ -7,6 +7,12 @@
     cursor: pointer;
 }
 
+.CardTask__isDrag {
+    position: fixed;
+    z-index: 1;
+    pointer-events: none;
+}
+
 .CardTask__Chip {
     margin: 0 3px 3px 0;
 }

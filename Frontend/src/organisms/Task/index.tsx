@@ -31,8 +31,7 @@ const Task: FC<TaskProps> = ({ currentTask, taskStatuses }) => {
         name,
         description,
         storyPoints,
-        executorEmail: '',
-        statusId: taskStatuses.find(({ name }) => name === status).id
+        statusId: taskStatuses.find(({ name }) => name === status)?.id,
     };
 
     const [isUpdateMode, openUpdateMode, closeUpdateMode] = useBoolean(false);
@@ -51,7 +50,7 @@ const Task: FC<TaskProps> = ({ currentTask, taskStatuses }) => {
                 <>
                     <div className="Task__header">
                         <Link to={createPathToDashboard(boardId)} className="Task__back">
-                            <ArrowBackIcon /> Назад на дашборд
+                            <ArrowBackIcon /> Назад на дашборд 
                         </Link>
                         <Button onClick={openUpdateMode} color="inherit">
                             <EditIcon />

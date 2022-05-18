@@ -57,13 +57,27 @@ public class TaskService {
         } else {
             task.setExecutor(userService.findUserByEmail(request.getExecutorEmail()).orElseThrow(NotFoundException::new));
         }
-        TaskStatus status = taskStatusService.getTaskStatus(request.getStatusId()).orElseThrow(NotFoundException::new);
-        taskStatusService.getBoardTaskStatusByBoardAndTaskStatus(task.getBoard(), status).orElseThrow(NotFoundException::new);
-        task.setStatus(status);
-        task.setName(request.getName());
-        task.setDescription(request.getDescription());
-        task.setStoryPoints(request.getStoryPoints());
+
+        if (request.getStatusId() != null) {
+            TaskStatus status = taskStatusService.getTaskStatus(request.getStatusId()).orElseThrow(NotFoundException::new);
+            taskStatusService.getBoardTaskStatusByBoardAndTaskStatus(task.getBoard(), status).orElseThrow(NotFoundException::new);
+            task.setStatus(status);
+        }
+
+        if (request.getName() != null) {
+            task.setName(request.getName());
+        }
+
+        if (request.getDescription() != null) {
+            task.setDescription(request.getDescription());
+        }
+
+        if (request.getStoryPoints() != null) {
+            task.setStoryPoints(request.getStoryPoints());
+        }
+
         task = taskRepo.save(task);
+
         return buildTaskResponse(task);
     }
 
