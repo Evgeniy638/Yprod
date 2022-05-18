@@ -8,13 +8,16 @@ import { createPathToCreateTask } from '../../common/path';
 
 interface ColumnTasksProps {
     dashboardId: number;
+    statusId: number;
     title: string;
     children?: ReactNode;
 }
 
-export const ColumnTasks: FC<ColumnTasksProps> = ({dashboardId, title, children}) => {
+export const COLUMN_TASKS_CLASSNAME = 'ColumnTasks';
+
+export const ColumnTasks: FC<ColumnTasksProps> = ({statusId, dashboardId, title, children}) => {
     return (
-        <div className="ColumnTasks">
+        <div className={COLUMN_TASKS_CLASSNAME} data-statusid={statusId}>
             <Typography variant="h6" component="h3">
                 {title}
             </Typography>

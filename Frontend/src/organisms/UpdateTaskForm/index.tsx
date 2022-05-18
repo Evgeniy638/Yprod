@@ -18,11 +18,11 @@ interface UpdateTaskFormProps {
     taskId: number;
     taskStatuses: Status[];
     initialValues: {
-        name: string;
-        description: string;
-        storyPoints: number;
-        executorEmail: string;
-        statusId: number;
+        name?: string;
+        description?: string;
+        storyPoints?: number;
+        executorEmail?: string;
+        statusId?: number;
     };
     onSubmit: (values: UpdateTaskData) => void;
     onClose: () => void;

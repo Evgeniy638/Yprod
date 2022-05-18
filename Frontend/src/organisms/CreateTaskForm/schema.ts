@@ -15,9 +15,7 @@ export const validationSchema: yup.SchemaOf<CreateTaskSchema> = yup.object({
         .required('Название обязательно'),
     description: yup
         .string()
-        .min(10, 'Минимальная длина описания 10 символов')
-        .max(5000, 'Максимальная длина описания 5000 символов')
-        .required('Описание обязательно'),
+        .max(5000, 'Максимальная длина описания 5000 символов'),
     storyPoints: yup
         .number()
         .min(0, 'Минимальное значение сторипоинтов 0')
