@@ -15,9 +15,7 @@ export const validationSchema: yup.SchemaOf<CreateAchievementSchema> = yup.objec
         .required('Название обязательно'),
     description: yup
         .string()
-        .min(10, 'Минимальная длина описания 10 символов')
-        .max(100, 'Максимальная длина описания 100 символов')
-        .required('Описание обязательно'),
+        .max(100, 'Максимальная длина описания 100 символов'),
     points: yup
         .number()
         .min(0, 'Минимальное значение очков опыта 0')

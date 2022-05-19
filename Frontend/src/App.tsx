@@ -1,6 +1,6 @@
 import { SnackbarProvider } from 'notistack';
 import React, { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Redirect, Route, Switch } from 'react-router-dom';
 
 import './App.css';
@@ -8,18 +8,30 @@ import { PAGE_DASHBOARD, PAGE_DASHBOARD_CREATE, PAGE_DASHBOARD_ID, PAGE_PROFILE,
 import { DashboardPage } from './pages/_dashboard';
 import { DashboardIdPage } from './pages/_dashboard/@id';
 import DashboardCreatePage from './pages/_dashboard/_create';
+import NotLinkProjectPage from './pages/_not-project';
 import ProjectPage from './pages/_poject';
 import ProfilePage from './pages/_profile';
 import TaskIdPage from './pages/_task/@id';
 import TaskCreatePage from './pages/_task/_create';
-import { thunkCreators } from './store';
+import { selectors, thunkCreators } from './store';
 
 const App: React.FC = () => {
+    const { project } = useSelector(selectors.selectUser) || {};
     const dispatch = useDispatch();
 
     useEffect(() => {
         dispatch(thunkCreators.setMainUserInfo());
     }, []);
+
+    if (!project) {
+        return (
+            <SnackbarProvider maxSnack={3}>
+                <div className="App">
+                    <NotLinkProjectPage />
+                </div>
+            </SnackbarProvider>
+        );
+    }
 
     return (
         <SnackbarProvider maxSnack={3}>

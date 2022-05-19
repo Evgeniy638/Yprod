@@ -42,6 +42,7 @@ export enum ListTypeUserActions {
     SET_ACHIEVEMENTS = 'SET_ACHIEVEMENTS',
     SET_ACHIEVEMENT_PICTURE = 'SET_ACHIEVEMENT_PICTURE',
     SET_PROJECT_BOARDS = 'SET_PROJECT_BOARDS',
+    DEPRIVE_ACHIEVEMENT = 'DEPRIVE_ACHIEVEMENT',
 }
 
 interface SetUserInfo {
@@ -65,7 +66,13 @@ interface SetProjectBoards {
     boards: PrimaryBoardInfo[];
 }
 
+interface DepriveAchivement {
+    type: ListTypeUserActions.DEPRIVE_ACHIEVEMENT;
+    achievementId: number;
+}
+
 export type ActionUser = SetUserInfo | 
     SetAchievements |
     SetAchievementPicture |
-    SetProjectBoards;
+    SetProjectBoards |
+    DepriveAchivement;
