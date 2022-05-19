@@ -69,18 +69,23 @@ public class UserService extends OidcUserService {
     public GetUserResponse buildGetUserResponse(OidcUser oidcUser) {
         Optional<User> userOptional = findUserByOidcUser(oidcUser);
         User user = userOptional.orElseThrow(NotFoundException::new);
-        Project project = user.getProjects().stream().findFirst().orElseThrow(NotFoundException::new);
-        UserProgress userProgress = user.getUserProgressSet().stream().findFirst().orElse(userProgressService.createUserProgress(project, user));
-        return new GetUserResponse()
+        GetUserResponse response = new GetUserResponse()
                 .setId(user.getId())
                 .setName(user.getName())
                 .setPicture(user.getPicture())
-                .setEmail(user.getEmail())
-                .setLevel(userProgress.getLevel())
-                .setPoints(userProgress.getPoints())
-                .setPointsToLevelUp(userProgressService.getPointsToLevelUp(userProgress))
-                .setProject(projectService.buildProjectShortResponse(project))
-                .setRole(projectService.getUserProjectRole(user, project));
+                .setEmail(user.getEmail());
+        Optional<Project> projectOptional = user.getProjects().stream().findFirst();
+        if (projectOptional.isPresent()) {
+            Project project = projectOptional.get();
+            UserProgress userProgress = user.getUserProgressSet().stream().findFirst().orElse(userProgressService.createUserProgress(project, user));
+            return response
+                    .setLevel(userProgress.getLevel())
+                    .setPoints(userProgress.getPoints())
+                    .setPointsToLevelUp(userProgressService.getPointsToLevelUp(userProgress))
+                    .setProject(projectService.buildProjectShortResponse(project))
+                    .setRole(projectService.getUserProjectRole(user, project));
+        }
+        return response;
     }
 
     @SneakyThrows
