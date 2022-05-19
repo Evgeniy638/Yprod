@@ -1,7 +1,9 @@
 import { ClickAwayListener, Grow, MenuItem, MenuList, Paper, Popper } from '@mui/material';
 import React, { FC, ReactNode } from 'react';
+import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { PAGE_LOGOUT, PAGE_PROFILE } from '../../common/path';
+import { selectors } from '../../store';
 
 import './index.css';
 
@@ -11,6 +13,7 @@ interface AvatarMenuProps {
 }
 
 const AvatarMenu: FC<AvatarMenuProps> = ({ children, placement='bottom-start' }) => {
+    const { project } = useSelector(selectors.selectUser) || {};
     const [open, setOpen] = React.useState(false);
     const anchorRef = React.useRef<HTMLDivElement>(null);
 
@@ -68,9 +71,11 @@ const AvatarMenu: FC<AvatarMenuProps> = ({ children, placement='bottom-start' })
                                     aria-labelledby="composition-button"
                                     onKeyDown={handleListKeyDown}
                                 >
-                                    <Link to={PAGE_PROFILE} className="ignoreLinkStyle">
-                                        <MenuItem onClick={handleClose}>Профиль</MenuItem>
-                                    </Link>
+                                    {project && (
+                                        <Link to={PAGE_PROFILE} className="ignoreLinkStyle">
+                                            <MenuItem onClick={handleClose}>Профиль</MenuItem>
+                                        </Link>
+                                    )}
                                     <a href={PAGE_LOGOUT} className="ignoreLinkStyle">
                                         <MenuItem onClick={handleClose}>Выйти</MenuItem>
                                     </a>

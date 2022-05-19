@@ -28,3 +28,10 @@ export const setProjectBoards = (boards: PrimaryBoardInfo[]): ActionUser => {
         boards,
     };
 };
+
+export const depriveAchivement = (achievementId: number): ActionUser => {
+    return {
+        type: ListTypeUserActions.DEPRIVE_ACHIEVEMENT,
+        achievementId,
+    };
+};

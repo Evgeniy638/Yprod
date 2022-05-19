@@ -18,3 +18,12 @@
     -webkit-line-clamp: 2;
     overflow: hidden;
 }
+
+.AchievementModal__block {
+    margin-bottom: var(--margin-primary);
+}
+
+.AchievementModal__emailInput.AchievementModal__emailInput {
+    width: 100%;
+    margin-bottom: var(--margin-secondary);
+}

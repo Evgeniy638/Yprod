@@ -1,10 +1,12 @@
-import { Typography } from '@mui/material';
+import { Skeleton, Typography } from '@mui/material';
 import classNames from 'classnames';
 import React, { FC } from 'react';
+import { useSelector } from 'react-redux';
 import { Link, useLocation } from 'react-router-dom';
 import { parametrs } from '../../common/path';
 import { useQuery } from '../../hooks/useQuery';
-import { Achievement } from '../../store/types/typeUser';
+import { selectors } from '../../store';
+import { Achievement, UserRole } from '../../store/types/typeUser';
 import AchievementModal from '../AchievementModal';
 
 import './index.css';
@@ -30,10 +32,14 @@ const ItemListAchievements: FC<ItemListAchievementsProps> = ({
 
     return (
         <Link
-            to={`/${pathname}?${parametrs.ACHIEVEMENT_ID}=${id}`}
+            to={`${pathname}?${parametrs.ACHIEVEMENT_ID}=${id}`}
             className={classNames('ItemListAchievements', 'ignoreLinkStyle')}
         >
-            <img className="ItemListAchievements__img" src={picture} alt={name} />
+            {picture ? (
+                <img className="ItemListAchievements__img" src={picture} alt={name} />
+            ): (
+                <Skeleton variant="circular" width={60} height={60} />
+            )}
             <div className="ItemListAchievements__text">
                 <span className="ItemListAchievements__name">
                     {name}
@@ -49,6 +55,8 @@ const ItemListAchievements: FC<ItemListAchievementsProps> = ({
 const ListAchievements: FC<ListAchievementsProps> = ({ achievements }) => {
     const params = useQuery();
     const achievementId: string | null = params.get(parametrs.ACHIEVEMENT_ID);
+    const { role } = useSelector(selectors.selectUser);
+    const isAdmin = role ===  UserRole.PROJECT_ADMIN;
 
     const achievementPopap: Achievement | undefined = achievementId && achievements.find(ach => ach.id === Number(achievementId));
 
@@ -59,7 +67,13 @@ const ListAchievements: FC<ListAchievementsProps> = ({ achievements }) => {
                     <ItemListAchievements key={achievement.id} {...achievement} />
                 ))}
             </div>
-            {achievementPopap && <AchievementModal {...achievementPopap} /> }
+            {achievementPopap && (
+                <AchievementModal
+                    isVisibleAssignAchivement={isAdmin}
+                    isVisibleDepriveAchievement={isAdmin}
+                    {...achievementPopap}
+                />
+            )}
         </>
     );
 };

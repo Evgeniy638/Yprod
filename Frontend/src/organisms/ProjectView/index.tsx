@@ -50,6 +50,7 @@ const ProjectView: FC = () => {
             enqueueSnackbar(`Пользователь ${email} добавлен`, {
                 variant: 'info',
             });
+            setEmail('');
         } catch (error) {
             const errorMessage = (get(error, 'message') as string | undefined) || 'Неизвестная ошибка';
             enqueueSnackbar(errorMessage, {
@@ -57,7 +58,7 @@ const ProjectView: FC = () => {
             });
         }
         enable();
-    }, [email, project?.id, disable, enable]);
+    }, [email, project?.id, disable, enable, setEmail]);
 
     const openAchievementCreate = useCallback(() => {
         history.replace(PATH_CREATE_ACHIEVEMENT_TO_PROJECT);
