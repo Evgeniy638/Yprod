@@ -77,7 +77,7 @@ public class UserService extends OidcUserService {
         Optional<Project> projectOptional = user.getProjects().stream().findFirst();
         if (projectOptional.isPresent()) {
             Project project = projectOptional.get();
-            UserProgress userProgress = user.getUserProgressSet().stream().findFirst().orElse(userProgressService.createUserProgress(project, user));
+            UserProgress userProgress = user.getUserProgressSet().stream().findFirst().orElseGet(() -> userProgressService.createUserProgress(project, user));
             return response
                     .setLevel(userProgress.getLevel())
                     .setPoints(userProgress.getPoints())
