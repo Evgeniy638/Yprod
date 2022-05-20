@@ -95,7 +95,7 @@ public class ApiController {
     }
 
     @PostMapping("/board")
-    public ResponseEntity<CreateBoardResponse> createBoard(@AuthenticationPrincipal OidcUser user,  @RequestBody CreateBoardRequest request) {
+    public ResponseEntity<CreateBoardResponse> createBoard(@AuthenticationPrincipal OidcUser user, @RequestBody CreateBoardRequest request) {
         try {
             userService.validateAdminByProject(user, projectService.getProject(request.getProjectId()).orElseThrow(NotFoundException::new));
             return new ResponseEntity<>(boardService.create(request), HttpStatus.OK);
